@@ -1,0 +1,805 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+using FACEBodyControl;
+using System.Globalization;
+using System.IO.Ports;
+using System.Windows.Threading;
+using System.Timers;
+using Pololu.UsbWrapper;
+using Pololu.Usc;
+
+namespace FACEConfig
+{
+    /// <summary>
+    /// Interaction logic for FACEConfigWin.xaml
+    /// </summary>
+    public partial class FACEConfigWin : Window
+    {
+        public enum FaceControls
+        {
+            Jaw = 0, FrownLeft = 1, Empty = 2, EELeft = 3, SmileLeft = 4, LipUpperCenter = 5, BrowOuterLeft = 6, BrowInnerLeft = 7,
+            SquintLeft = 8, SneerLeft = 9, LipUpperLeft = 10, LipLowerLeft = 12, EyesUpDown = 13, LipLowerCenter = 16, SneerRight = 17, EERight = 18,
+            FrownRight = 19, SmileRight = 20, BrowOuterRight = 23, BrowInnerRight = 24, BrowCenter = 25, LipLowerRight = 26,
+            LipUpperRight = 27, SquintRight = 29
+        };
+
+        public enum NeckControls
+        {
+            UpperNod = 14, LowerNod = 15, Turn = 28, Tilt = 31
+        };
+
+        public enum EyesControls
+        {
+            EyeTurnLeft = 11, EyeLidsLower = 21, EyeLidsUpper = 22, EyeTurnRight = 30
+        };
+
+        private FACEMotion defaultConfig;
+        private Type selectedEnum;        
+        private string filenameConfig = "";
+        private SettingsDialog setDialog;
+        private int time;
+
+        //Stores the value of the ProgressBar
+        private int currChannel;
+        private int currAbsoluteValue;
+        private float currRelativeValue;
+
+        // Saved indexes for comboboxes
+        private string savedDeviceType = "";
+        private string savedPortName = "";
+        private int savedBitRate = 115200;
+        private int savedDataBits = 8;
+        private Parity savedParity = Parity.None;
+        private StopBits savedStopBits = StopBits.One;
+        private Handshake savedHandshake = Handshake.None;
+
+        // Saved params for comboboxes
+        private int savedMinVal=500;
+        private int savedMaxVal=2500;
+
+        private Dictionary<KeyGesture, RoutedEventHandler> gests = new Dictionary<KeyGesture, RoutedEventHandler>();
+
+        public FACEConfigWin()
+        {
+            InitializeComponent();
+
+            Init();
+        }
+
+
+        /// <summary>
+        /// Initial configuration.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Init()
+        {
+            filenameConfig = "Config.xml";
+            if (System.IO.File.Exists(filenameConfig))
+                defaultConfig = new FACEMotion(FACEBody.LoadConfigFile(filenameConfig), TimeSpan.FromMilliseconds(0));
+            else //TO BE DEVELOPED
+            {
+                defaultConfig = new FACEMotion(FACEBody.NUMBER_OF_MOTORS);
+                defaultConfig.Name = filenameConfig;
+            }
+<<<<<<< HEAD
+
+            //Recupero seriale dei servo controller
+            var device_list = Usc.getConnectedDevices();
+            for (int i=0; i < device_list.Count;i++ )
+            {
+                ServoControllerCombo.Items.Add(device_list[i].serialNumber);
+                TextServoController.Text += device_list[i].serialNumber + " | ";
+            }
+
+            
+            for (int i = 0; i < 18; i++) 
+            {
+                ServoControllerPortCombo.Items.Add(i);
+            }
+           
+                
+
+            
+        }
+=======
+>>>>>>> master
+
+        }   
+
+
+        #region Menu Buttons
+
+        private void FileSaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (ServoMotorsCombo.SelectedIndex != -1)
+                {
+                    defaultConfig.Duration = time;
+                    FACEBody.SaveConfigFile(defaultConfig, filenameConfig);
+                    TextInfo.Text = "File saved correctly.";
+                }
+            }
+            catch (FACException fEx)
+            {
+                TextInfo.Text = "Error occurs saving configuration file.";
+                ErrorDialog errorDiag = new ErrorDialog();
+                errorDiag.tbInstructionText.Text = fEx.Message;
+                errorDiag.Show();
+            }
+        }
+
+        private void SaveAsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveDialog = new Microsoft.Win32.SaveFileDialog();
+            saveDialog.FileName = "Expression"; // Default file name
+            saveDialog.DefaultExt = ".xml"; // Default file extension
+            saveDialog.Filter = "XML file (*.xml)|*.xml"; // Filter files by extension "All Files (*.*)|*.*|XML file (*.xml)|*.xml"
+            saveDialog.AddExtension = true; // Adds a extension if the user does not
+            saveDialog.RestoreDirectory = true; // Restores the selected directory, next time
+
+            Nullable<bool> result = saveDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = saveDialog.FileName;
+
+                try
+                {
+                    if (ServoMotorsCombo.SelectedIndex != -1)
+                    {
+                        defaultConfig.Duration = time;
+                        defaultConfig.Name = filename;
+                        FACEBody.SaveConfigFile(defaultConfig, filename);
+                        TextInfo.Text = "File saved correctly.";
+                    }
+                }
+                catch (FACException fEx)
+                {
+                    TextInfo.Text = "Error occurs saving configuration file.";
+                    ErrorDialog errorDiag = new ErrorDialog();
+                    errorDiag.tbInstructionText.Text = fEx.Message;
+                    errorDiag.Show();
+                }
+            }
+        }
+
+        private void TestConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (ServoMotorsCombo.SelectedIndex != -1)
+                {                    
+                    defaultConfig.Duration = time;
+                    FACEBody.ExecuteMotion(defaultConfig);
+                    TextInfo.Text = "Testing configuration...";
+                }
+            }
+            catch (FACException fEx)
+            {
+                TextInfo.Text = "Error in testing configuration.";
+                WarningDialog warningDiag = new WarningDialog();
+                warningDiag.tbInstructionText.Text = fEx.Message;
+                warningDiag.Show();
+            }
+        }
+
+        #endregion
+
+
+        #region Settings Dialog
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            setDialog = new SettingsDialog();
+            setDialog.UIPortSettings += new SettingsDialog.UIPortSettingsEventHandler(SaveAndDisplayCurrentPortSettings);
+            setDialog.UIMessage += new SettingsDialog.UIMessageEventHandler(DisplayCurrentMessage);
+            setDialog.UIDeviceSettings += new SettingsDialog.UIDeviceSettingsEventHandler(DisplayDeviceWarning);
+            SetPreferences();
+            setDialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// Set the saved settings on the combo boxes.
+        /// </summary>
+        private void SetPreferences()
+        {
+            //Device
+            setDialog.standardCombo.SelectedValue = savedDeviceType;
+            setDialog.minValueBox.Text = savedMinVal.ToString();
+            setDialog.maxValueBox.Text = savedMaxVal.ToString();
+            //Port
+            setDialog.comPortCombo.SelectedValue = savedPortName;
+            setDialog.bitRateCombo.SelectedValue = savedBitRate;
+            setDialog.dataBitsCombo.SelectedValue = savedDataBits;
+            setDialog.parityCombo.SelectedValue = savedParity;
+            setDialog.stopBitsCombo.SelectedValue = savedStopBits;
+            setDialog.handshakingCombo.SelectedValue = savedHandshake;
+        }
+
+
+        /// <summary>
+        /// Display the current device settings on the statusbar.
+        /// </summary>
+        /// <param name="selectedDevice"></param>
+        /// <param name="msgDevice"></param>
+        /// <param name="minLimit"></param>
+        /// <param name="maxLimit"></param>
+        /// <param name="msgLimit"></param>
+        private void DisplayDeviceWarning(string selectedDevice, string msgDevice, int minLimit, int maxLimit, string msgLimit)
+        {
+            if (msgDevice != "")
+            {
+                WarningDialog warningDialog = new WarningDialog();
+                warningDialog.tbInstructionText.Text = msgDevice;
+                warningDialog.Show();
+            }
+            else
+            {
+                savedDeviceType = selectedDevice;
+            }
+
+            if (msgLimit != "")
+            {
+                WarningDialog warningDialog = new WarningDialog();
+                warningDialog.tbInstructionText.Text = msgLimit;
+                warningDialog.Show();
+            }
+            else
+            {
+                //FACEBody.MinLimit = minLimit;
+                //FACEBody.MaxLimit = maxLimit;
+                //SliderControl.Minimum = FACEBody.MinLimit;
+                //SliderControl.Maximum = FACEBody.MaxLimit;
+                //SliderControl.Value = FACEBody.MinLimit;
+                //savedMinVal = FACEBody.MinLimit;
+                //savedMaxVal = FACEBody.MaxLimit;
+            }
+        }
+        
+
+        /// <summary>
+        /// Display the current port settings on the statusbar.
+        /// </summary>        
+        private void SaveAndDisplayCurrentPortSettings(string selectedPort, int selectedBitRate, int selectedDataBits, Parity selectedParity, StopBits selectedStopBits, Handshake selectedHandshake)
+        {
+            savedPortName = selectedPort;
+            savedBitRate = (int)setDialog.bitRateCombo.SelectedItem;
+            savedDataBits = (int)setDialog.dataBitsCombo.SelectedItem;
+            savedParity = (Parity)setDialog.parityCombo.SelectedItem;
+            savedStopBits = (StopBits)setDialog.stopBitsCombo.SelectedItem;
+            savedHandshake = (Handshake)setDialog.handshakingCombo.SelectedItem;
+
+            
+        }
+
+
+        /// <summary>
+        /// Display the currente message on the statusbar.
+        /// </summary>
+        /// <param name="msg">The message to be set on the statusbar</param>
+        private void DisplayCurrentMessage(string msg)
+        {
+            //TextError.Text = msg;
+            TextInfo.Text = msg;
+        }
+
+
+       
+
+
+        /// <summary>
+        /// Updates the time box in the status bar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SBTimeBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                time = Convert.ToInt32(SBTimeBox.Text, NumberFormatInfo.InvariantInfo);
+                if (time < 0)
+                {
+                    time = 0;
+                    SBTimeBox.Text = String.Format(time.ToString("", CultureInfo.InvariantCulture));
+                }
+            }
+            catch
+            {
+                time = 0;
+                SBTimeBox.Text = String.Format(time.ToString("0", CultureInfo.InvariantCulture));
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Close();
+        }
+
+        #endregion
+
+
+        #region Radio Buttons
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FaceRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ClearCombobox(ServoMotorsCombo);
+
+            currChannel=-1;
+            currAbsoluteValue=-1;
+            currRelativeValue=-1;
+
+            foreach (FaceControls item in Enum.GetValues(typeof(FaceControls)))
+            {
+                int index = Convert.ToInt32(item, CultureInfo.InvariantCulture);
+                string name = Enum.GetName(typeof(FaceControls), item);
+                ServoMotorsCombo.Items.Add(String.Format("{0} Motor (#{1})", name, index));
+            }
+
+            selectedEnum = typeof(FaceControls);
+            ServoMotorsCombo.SelectedIndex = -1;
+            ServoMotorsCombo.IsEnabled = true;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NeckRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ClearCombobox(ServoMotorsCombo);
+
+            currChannel = -1;
+            currAbsoluteValue = -1;
+            currRelativeValue = -1;
+
+
+            foreach (NeckControls item in Enum.GetValues(typeof(NeckControls)))
+            {
+                int index = Convert.ToInt32(item, CultureInfo.InvariantCulture);
+                string name = Enum.GetName(typeof(NeckControls), item);
+                ServoMotorsCombo.Items.Add(String.Format("{0} Motor (#{1})", name, index));
+            }
+
+            selectedEnum = typeof(NeckControls);
+            ServoMotorsCombo.SelectedIndex = -1;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EyesRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ClearCombobox(ServoMotorsCombo);
+
+            currChannel = -1;
+            currAbsoluteValue = -1;
+            currRelativeValue = -1;
+
+            foreach (EyesControls item in Enum.GetValues(typeof(EyesControls)))
+            {
+                int index = Convert.ToInt32(item, CultureInfo.InvariantCulture);
+                string name = Enum.GetName(typeof(EyesControls), item);
+                ServoMotorsCombo.Items.Add(String.Format("{0} Motor (#{1})", name, index));
+            }
+
+            selectedEnum = typeof(EyesControls);
+            ServoMotorsCombo.SelectedIndex = -1;
+        }
+
+        #endregion
+
+
+        #region Combobox
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ServoMotorsCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ServoMotorsCombo.SelectedIndex != -1)
+            {
+                string item = ServoMotorsCombo.SelectedItem as string;
+                currChannel = Convert.ToInt32((int)Enum.Parse(selectedEnum, (item.Split(' '))[0]), CultureInfo.InvariantCulture);
+
+                if (defaultConfig.ServoMotorsList[currChannel].PulseWidth != -1)
+                    currRelativeValue = defaultConfig.ServoMotorsList[currChannel].PulseWidth;
+                else
+                    currRelativeValue = 0.5f;
+                
+                currAbsoluteValue = defaultConfig.ServoMotorsList[currChannel].MappingOnMinMaxInterval(currRelativeValue);
+
+
+                PositionBox.Text = String.Format(currAbsoluteValue.ToString("000", CultureInfo.InvariantCulture));
+               // PositionBox.Text = currAbsoluteValue.ToString();
+
+                
+                CurrentMinValue.Content = defaultConfig.ServoMotorsList[currChannel].MinValue;
+                CurrentMaxValue.Content = defaultConfig.ServoMotorsList[currChannel].MaxValue;
+
+<<<<<<< HEAD
+                ServoControllerCombo.SelectedItem = defaultConfig.ServoMotorsList[currChannel].SerialSC;
+                ServoControllerPortCombo.SelectedItem = defaultConfig.ServoMotorsList[currChannel].PortSC;
+
+                ServoControllerCombo.IsEnabled = true;
+                ServoControllerPortCombo.IsEnabled = true;
+
+                if (!SliderControl.IsEnabled)
+                    SliderControl.IsEnabled = true;
+                
+            }
+            else 
+            {
+                ServoControllerCombo.IsEnabled = false;
+                ServoControllerPortCombo.IsEnabled = false;
+=======
+                if (!SliderControl.IsEnabled)
+                    SliderControl.IsEnabled = true;
+
+
+                SliderControl.Value = currRelativeValue;
+
+>>>>>>> master
+            }
+          
+        }
+
+        private void ServoControllerCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ServoControllerCombo.SelectedValue != null)
+            {
+                if(defaultConfig.ServoMotorsList[currChannel].SerialSC == ServoControllerCombo.SelectedValue)
+                    ManualPanel.IsEnabled = true;
+
+                SetSC.IsEnabled=true;
+            }
+            else
+            {
+                ManualPanel.IsEnabled = false;
+                SetSC.IsEnabled = false;
+            }
+        }
+
+      
+        private void SetSC_Click(object sender, RoutedEventArgs e)
+        {
+            (defaultConfig.ServoMotorsList[currChannel]).SerialSC = ServoControllerCombo.SelectedItem.ToString();
+            (defaultConfig.ServoMotorsList[currChannel]).PortSC = (int)ServoControllerPortCombo.SelectedItem;
+            ManualPanel.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Resets the combobox content.
+        /// </summary>
+        /// <param name="combo"></param>
+        private void ClearCombobox(ComboBox combo)
+        {
+            for (int i = combo.Items.Count - 1; i >= 0; i--)
+                combo.Items.RemoveAt(i);
+        }
+
+        #endregion
+
+
+        #region Set Min/Max and controls
+
+        /// <summary>
+        /// Set the lower limit of the servo motor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetMinButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (currAbsoluteValue >= FACEBody.MinLimit && currAbsoluteValue <= FACEBody.MaxLimit)
+                {
+                    (defaultConfig.ServoMotorsList[currChannel]).MinValue = currAbsoluteValue;
+                    CurrentMinValue.Content = currAbsoluteValue;
+                }
+                else
+                {
+                    if (currAbsoluteValue < FACEBody.MinLimit)
+                    {
+                        currAbsoluteValue = FACEBody.MinLimit;
+                        PositionBox.Text = String.Format((FACEBody.MinLimit).ToString("000", CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        currAbsoluteValue = FACEBody.MaxLimit;
+                        PositionBox.Text = String.Format((FACEBody.MaxLimit).ToString("000", CultureInfo.InvariantCulture));
+                    }
+
+                    WarningDialog warningDiag = new WarningDialog();
+                    warningDiag.tbInstructionText.Text = "The position value is out of the limits.";
+                    warningDiag.Show();
+                }
+            }
+            catch
+            {
+                currAbsoluteValue = FACEBody.MinLimit;
+                PositionBox.Text = String.Format(currAbsoluteValue.ToString("000", CultureInfo.InvariantCulture));
+            }
+        }
+
+
+        /// <summary>
+        /// Set the upper limit of the servo motor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetMaxButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (currAbsoluteValue >= FACEBody.MinLimit && currAbsoluteValue <= FACEBody.MaxLimit)
+                {
+                    (defaultConfig.ServoMotorsList[currChannel]).MaxValue = currAbsoluteValue;
+                    CurrentMaxValue.Content = currAbsoluteValue;
+                }
+                else
+                {
+                    if (currAbsoluteValue < FACEBody.MinLimit)
+                    {
+                        currAbsoluteValue = FACEBody.MinLimit;
+                        PositionBox.Text = String.Format((FACEBody.MinLimit).ToString("000", CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        currAbsoluteValue = FACEBody.MaxLimit;
+                        PositionBox.Text = String.Format((FACEBody.MaxLimit).ToString("000", CultureInfo.InvariantCulture));
+                    }
+
+                    WarningDialog warningDiag = new WarningDialog();
+                    warningDiag.tbInstructionText.Text = "The position value is out of the limits.";
+                    warningDiag.Show();
+                }
+            }
+            catch
+            {
+                currAbsoluteValue = FACEBody.MinLimit;
+                PositionBox.Text = String.Format(currAbsoluteValue.ToString("000", CultureInfo.InvariantCulture));
+            }
+        }
+
+        #endregion
+
+        private void PositionBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                //currAbsoluteValue = Convert.ToInt32(PositionBox.Text, NumberFormatInfo.InvariantInfo);
+                if (currAbsoluteValue >= FACEBody.MinLimit && currAbsoluteValue <= FACEBody.MaxLimit)
+                {
+                    SliderControl.Value = defaultConfig.ServoMotorsList[currChannel].MappingOnUnitaryInterval(currAbsoluteValue);
+<<<<<<< HEAD
+                    PositionBox.Text = String.Format(currAbsoluteValue.ToString("0", CultureInfo.InvariantCulture));
+=======
+                }
+                else
+                {
+                    //if (currAbsoluteValue < FACEBody.MinLimit)
+                    //{
+                    //    currAbsoluteValue = FACEBody.MinLimit;
+                    //    PositionBox.Text = String.Format((FACEBody.MinLimit).ToString("000", CultureInfo.InvariantCulture));
+                    //}
+                    //else
+                    //{
+                    //    currAbsoluteValue = FACEBody.MaxLimit;
+                    //    PositionBox.Text = String.Format((FACEBody.MaxLimit).ToString("000", CultureInfo.InvariantCulture));
+                    //}
+                }
+            }
+            catch
+            {
+                time = 0;
+                PositionBox.Text = String.Format(time.ToString("0", CultureInfo.InvariantCulture));
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider sliderCtrl = e.OriginalSource as Slider;
+
+			try
+            {
+                currAbsoluteValue = defaultConfig.ServoMotorsList[currChannel].MappingOnMinMaxInterval((float)SliderControl.Value);
+                if (currAbsoluteValue >= FACEBody.MinLimit && currAbsoluteValue <= FACEBody.MaxLimit)
+                {
+                    
+                    PositionBox.Text = String.Format(currAbsoluteValue.ToString("000", CultureInfo.InvariantCulture));
+>>>>>>> master
+                }
+                else
+                {
+                    if (currAbsoluteValue < FACEBody.MinLimit)
+                    {
+                        currAbsoluteValue = FACEBody.MinLimit;
+                        PositionBox.Text = String.Format((FACEBody.MinLimit).ToString("000", CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        currAbsoluteValue = FACEBody.MaxLimit;
+                        PositionBox.Text = String.Format((FACEBody.MaxLimit).ToString("000", CultureInfo.InvariantCulture));
+                        
+                    }
+                }
+            }
+            catch
+            {
+                time = 0;
+                PositionBox.Text = String.Format(time.ToString("000", CultureInfo.InvariantCulture));
+            }
+
+<<<<<<< HEAD
+            try
+            {
+                currAbsoluteValue = defaultConfig.ServoMotorsList[currChannel].MappingOnMinMaxInterval((float)sliderCtrl.Value);
+                if (currAbsoluteValue >= FACEBody.MinLimit && currAbsoluteValue <= FACEBody.MaxLimit)
+                {
+                    
+                    PositionBox.Text = String.Format(currAbsoluteValue.ToString("0", CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    if (currAbsoluteValue < FACEBody.MinLimit)
+                    {
+                        currAbsoluteValue = FACEBody.MinLimit;
+                        PositionBox.Text = String.Format((FACEBody.MinLimit).ToString("000", CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        currAbsoluteValue = FACEBody.MaxLimit;
+                        PositionBox.Text = String.Format((FACEBody.MaxLimit).ToString("000", CultureInfo.InvariantCulture));
+                        
+                    }
+                }
+            }
+            catch
+            {
+                time = 0;
+                PositionBox.Text = String.Format(time.ToString("0", CultureInfo.InvariantCulture));
+            }
+
+            if (PositionBox != null)
+                PositionBox.Text = String.Format(sliderCtrl.Value.ToString("000", CultureInfo.InvariantCulture));
+=======
+            //if (PositionBox != null)
+            //    PositionBox.Text = String.Format(sliderCtrl.Value.ToString("000", CultureInfo.InvariantCulture));
+>>>>>>> master
+        }
+
+ 
+
+
+        #region Test Values
+
+        /// <summary>
+        /// Test min/max values for the current servo motor considering the absolutes min/max values
+        /// (FACEBody.MinLimit - FACEBody.MaxLimit)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TestMinMaxButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (selectedEnum != null && ServoMotorsCombo.SelectedIndex != -1)
+                {
+                    if (currAbsoluteValue >= FACEBody.MinLimit && currAbsoluteValue <= FACEBody.MaxLimit)
+                    {
+                        //send position directly to the servomotor, without animator
+                        int port = (int)defaultConfig.ServoMotorsList[currChannel].PortSC;
+                        string serial = defaultConfig.ServoMotorsList[currChannel].SerialSC;
+
+                        FACEBody.SendRawCommand(currChannel, port, currAbsoluteValue, serial, time);
+                    }
+                    else
+                    {
+                        if (currAbsoluteValue < FACEBody.MinLimit)
+                        {
+                            currAbsoluteValue = FACEBody.MinLimit;
+                            PositionBox.Text = String.Format((FACEBody.MinLimit).ToString("000", CultureInfo.InvariantCulture));
+                        }
+                        else
+                        {
+                            currAbsoluteValue = FACEBody.MaxLimit;
+                            PositionBox.Text = String.Format((FACEBody.MaxLimit).ToString("000", CultureInfo.InvariantCulture));
+                        }
+
+                        WarningDialog warningDiag = new WarningDialog();
+                        warningDiag.tbInstructionText.Text = "The position value is out of the limits.";
+                        warningDiag.Show();
+                    }
+                }
+            }
+            catch (FACException fEx)
+            {
+                // Set Info box
+                TextInfo.Text = "";
+
+                WarningDialog warningDiag = new WarningDialog();
+                warningDiag.tbInstructionText.Text = fEx.Message;
+                warningDiag.Show();
+            }
+        }
+
+
+        /// <summary>
+        /// Test min/max values for the current servo motor considering the relative min/max values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TestValueButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (selectedEnum != null && ServoMotorsCombo.SelectedIndex != -1)
+                {
+                    int minVal = (int)defaultConfig.ServoMotorsList[currChannel].MinValue;
+                    int maxVal = (int)defaultConfig.ServoMotorsList[currChannel].MaxValue;
+                    int port=(int)defaultConfig.ServoMotorsList[currChannel].PortSC;
+                    string serial = defaultConfig.ServoMotorsList[currChannel].SerialSC;
+
+                    if ((currAbsoluteValue >= minVal && currAbsoluteValue <= maxVal) 
+                        || (currAbsoluteValue >= maxVal && currAbsoluteValue <= minVal))
+                    {
+                        //send position directly to the servomotor, without animator
+                       // FACEBody.SendRawCommand(currChannel, currAbsoluteValue, time);
+                        FACEBody.SendRawCommand(currChannel, port, currAbsoluteValue, serial,time);
+                        //update the local config to be saved
+                        defaultConfig.ServoMotorsList[currChannel].PulseWidth = FACEBody.CurrentMotorState[currChannel].PulseWidth;
+                    }
+                    else
+                    {
+                        WarningDialog warningDiag = new WarningDialog();
+                        warningDiag.tbInstructionText.Text = "The position value is out of the servo motor limits.";
+                        warningDiag.Show();
+                    }
+                }
+            }
+            catch (FACException fEx)
+            {
+                WarningDialog warningDiag = new WarningDialog();
+                warningDiag.tbInstructionText.Text = fEx.Message;
+                warningDiag.Show();
+            }
+        }
+
+        #endregion
+
+       
+
+       
+
+       
+
+    }
+
+}

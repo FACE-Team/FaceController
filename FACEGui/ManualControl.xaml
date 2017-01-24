@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="FACEGui20.ManualControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Height="Auto" Width="Auto">
+
+    <DockPanel Name="ManualPanel">
+        <Grid Margin="0,0,0,5" Background="{x:Null}" DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="58"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="58"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="SetMinButton" Grid.Column="0" Click="SetMinButton_Click" Style="{StaticResource ButtonStyle}" Margin="1,3" 
+                    IsDefault="True" Width="56" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Name="SetMinButtonPanel" Orientation="Vertical" Width="{Binding ElementName=SetMinButton, Path=Width}" Height="{Binding ElementName=SetMinButton, Path=Height}">
+                    <Label Name="MinButtonLabel" Content="Set Min" Width="{Binding ElementName=SetMinButton, Path=Width}" />
+                    <Label Name="MinButtonValue" Content="0" Visibility="Collapsed" Foreground="Gray" Margin="0,-12,0,-5" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <TextBox Name="PositionBox" Grid.Column="1" TextChanged="PositionBox_TextChanged" HorizontalAlignment="Stretch" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Margin="45,0,45,0" TextAlignment="Center" FontWeight="Normal"/>
+            <Button Name="SetMaxButton" Grid.Column="2" Click="SetMaxButton_Click" Style="{StaticResource ButtonStyle}" Margin="1,3" 
+                    IsDefault="True" Width="56" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Name="SetMaxButtonPanel" Orientation="Vertical" Width="{Binding ElementName=SetMaxButton, Path=Width}">
+                    <Label Name="MaxButtonLabel" Content="Set Max" Width="{Binding ElementName=SetMaxButton, Path=Width}"  />
+                    <Label Name="MaxButtonValue" Content="0" Visibility="Collapsed" Foreground="Gray" Margin="0,-12,0,-5" HorizontalAlignment="Center" />
+                    <!--Foreground="#FF929090"-->
+                </StackPanel>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" VerticalAlignment="Stretch" Background="{x:Null}" DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="22"/>
+                <ColumnDefinition Width="212"/>
+                <ColumnDefinition Width="22"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Name="DelButton" Style="{StaticResource ButtonStyle}" IsDefault="True" Width="18" BorderThickness="5,0,2,0" HorizontalAlignment="Center">
+                <Image Source="/Images/Buttons/Del_dark-20.png" Margin="0,1,0,0" />
+            </Button>
+            <ProgressBar Grid.Column="1" Style="{StaticResource ProgressBarStyle}" Name="PBManualControl" Value="0" BorderThickness="3,1" VerticalAlignment="Center" Margin="5,0,5,0" HorizontalAlignment="Stretch" />
+            <Button Grid.Column="2" Name="AddButton" Style="{StaticResource ButtonStyle}" IsDefault="True" Width="18" BorderThickness="5,0,2,0" VerticalAlignment="Center">
+                <Image Source="/Images/Buttons/Add_dark-20.png" Margin="0,1,0,0" />
+            </Button>
+        </Grid>
+        <Grid Margin="0,5" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
+            <Button Name="TestValueButton" Click="TestValueButton_Click" Style="{StaticResource ButtonStyle}" IsDefault="True" 
+                    HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Label Content="Test Value" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Normal" />
+                </StackPanel>
+            </Button>
+        </Grid>
+    </DockPanel>
+
+</UserControl>

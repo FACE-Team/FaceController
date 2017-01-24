@@ -1,0 +1,24 @@
+﻿<Application x:Class="FACEGui20.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Checkbox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Combobox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Expander.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Menu.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Progressbar.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Radiobutton.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Scrollbar.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Scrollviewer.xaml"/>                
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/TabPanel.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Textbox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Toolbar.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Tooltip.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

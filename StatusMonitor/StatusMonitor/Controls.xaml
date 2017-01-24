@@ -1,0 +1,158 @@
+﻿
+        <Window x:Class="StatusMonitor.Controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:winFormsChart="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        Title="Charts" Height="344" MinHeight="344" MinWidth="566" Width="566" MaxHeight="344" MaxWidth="566" Closed="Window_Closed">
+    <Window.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="BackgroundColor" Color="#FFAFAFAF" />
+            <SolidColorBrush x:Key="MyColor" Color="#FF027DB8" />
+            <ControlTemplate TargetType="ProgressBar" x:Key="pt1">
+                <Border BorderBrush="#BBC6C4" BorderThickness="1" CornerRadius="5" Padding="1">
+                    <Grid x:Name="PART_Track" >
+                        <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left" RadiusX="5" RadiusY="5">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF1D5666" Offset="1"/>
+                                    <GradientStop Color="#FF09B6FF"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <!--Rectangle Fill="White"/-->
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+<Grid Height="Auto" Name="grid1" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="134*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="233*" />
+        </Grid.ColumnDefinitions>
+
+        <TabControl Height="Auto" Name="tabControl1" Width="Auto" >
+            <TabItem Header="Charts" Name="tabItem1">
+
+                <Grid Name="CheckBoxGrid" Height="269" Width="530">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="349*" />
+                        <ColumnDefinition Width="204*" />
+                        <ColumnDefinition Width="156*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="126.5*" />
+                        <RowDefinition Height="126.5*" />
+                        <RowDefinition Height="126.5*" />
+                        <RowDefinition Height="126.5*" />
+                    </Grid.RowDefinitions>
+                    <CheckBox Content="Show" Grid.Column="1" Height="23" HorizontalAlignment="Center" Margin="8,22,69,22" Name="CurrentGraph" VerticalAlignment="Center" Width="75"  Uid="0" IsChecked="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                    <CheckBox Content="Show" Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Center" Margin="8,22,69,22" Name="VoltageGraph" VerticalAlignment="Center" Width="75" Uid="1" IsChecked="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                    <CheckBox Content="Show" Grid.Column="1" Grid.Row="2" Height="23" HorizontalAlignment="Center" Margin="8,22,69,22" Name="PowerGraph" VerticalAlignment="Center" Width="75"  Uid="2" IsChecked="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                    <CheckBox Content="Show" Grid.Column="1" Grid.Row="3" Height="23" HorizontalAlignment="Center" Margin="8,22,69,22" Name="TemperatureTab" VerticalAlignment="Center" Width="75" Uid="3" IsChecked="False" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                    <Label Content="CURRENT GRAPH" Height="23" HorizontalAlignment="Right" Margin="0,22,31,22" Name="label50" VerticalAlignment="Center" Width="100" />
+                    <Label Content="VOLTAGE GRAPH " Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,22,31,22" Name="label51" VerticalAlignment="Center" Width="100" />
+                    <Label Content="POWER GRAPH" Grid.Row="2" Height="23" HorizontalAlignment="Right" Margin="0,22,31,22" Name="label52" VerticalAlignment="Center" Width="100" />
+                    <Label Content="TEMPERATURE GRAPH" Grid.Row="3" Height="23" HorizontalAlignment="Right" Margin="0,22,31,22" Name="label53" VerticalAlignment="Center" Width="130" />
+                    <Button Content="Reset" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" Height="23" HorizontalAlignment="Left" Margin="110,56,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+                </Grid>
+
+            </TabItem>
+      <TabItem Header="Controls" Name="tabItem2" Width="auto" Height="auto">
+        
+        <Grid VerticalAlignment="Stretch" Height="270" Width="544"   HorizontalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+                <RowDefinition Height="82*" />
+                <RowDefinition Height="82*" />
+            </Grid.RowDefinitions>
+            <GroupBox Header="Mode" Height="Auto" Margin="0,2,0,2" Name="groupBox1">
+                <Grid Width="auto" Height="auto" Margin="0,0,0,0">
+                    <RadioButton Content="Full Time Mode" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,5" Name="FullTimeMode" Height="16" Checked="FullTimeMode_Checked" Foreground="Black" />
+                    <RadioButton Content="Part Time Mode" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5" Name="PartTimeMode" Checked="PartTimeMode_Checked" Foreground="Black" />
+                    <RadioButton Content="Scroll Bar Mode" Height="16" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,5" Name="ScrollBarMode" Checked="ScrollBarMode_Checked" Foreground="Black" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Zoom" Height="auto" Margin="0,2,0,2" Name="groupBox2">
+                <Grid Height="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="143*" />
+                        <ColumnDefinition Width="118*" />
+                        <ColumnDefinition Width="95" />
+                        <ColumnDefinition Width="6" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="6" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="8*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
+                    <Label Content="Window Size" Width="auto" Name="label1" Grid.Row="3" Grid.Column="1" Margin="0,0,0,1" Grid.RowSpan="2" />
+                    <Label Content="Number of Samples" Margin="6,0,0,0" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" />
+                    <Label Content="Zoom" Margin="0,0,0,19" Name="label5" Grid.RowSpan="3" Grid.Row="1" Grid.Column="1" />
+                    <Slider Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="7" Height="auto" Name="ZoomSlider" Width="auto" ValueChanged="ZoomSlider_ValueChanged" />
+                    <TextBox Name="WindowSize" Grid.Column="2" Grid.Row="3" Height="auto" Width="Auto" />
+                    <TextBox Grid.Column="4" Grid.Row="3" Height="auto" Name="NumberOfSamples" Width="95" MouseDoubleClick="NumberOfSamples_MouseDoubleClick" />
+                    <Button Content="Enter" Margin="0,0,0,0" Name="LeaveNumberSaplesB" Grid.Column="6" Grid.Row="3" Height="Auto" Width="auto" Click="LeaveNumberSaplesB_Click" Grid.ColumnSpan="3" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Header="General" Height="Auto" Name="groupBox3" Margin="0,2,0,2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="143*" />
+                        <ColumnDefinition Width="118*" />
+                        <ColumnDefinition Width="95" />
+                        <ColumnDefinition Width="6" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="6" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="8*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Column="2" Grid.Row="1" Height="auto" Name="TotalTime" Width="Auto" />
+                    <TextBox Grid.Column="4" Grid.Row="1" Height="auto" Name="Position" Width="95" MouseDoubleClick="Position_MouseDoubleClick" />
+                    <Label Content="Position" Height="Auto" Margin="29,0,0,0" Name="label7" Grid.Row="1" Grid.Column="3" />
+                    <Slider Minimum="0" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="7" Height="auto" Name="PositionSlider" Width="auto" ValueChanged="PositionSlider_ValueChanged" />
+                    <Label Content="Position" Height="auto" Width="auto" Name="label10" VerticalAlignment="Top" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" />
+                    <Label Content="Time" Height="Auto" Width="auto" Margin="0,0,0,0" Name="label9" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="1" Grid.Row="1" Grid.Column="1" />
+                    <Button Content="Enter" Name="LeavePositionB" Grid.Column="6" Grid.Row="1" Height="Auto" Width="auto" Margin="0,0,0,0" Click="LeavePositionB_Click" Grid.ColumnSpan="3" />
+                </Grid>
+            </GroupBox>
+           </Grid>
+          </TabItem>
+            <TabItem Header="Energy Consumption" Name="tabItem3">
+                <Grid Height="269" Width="530">
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="239,36,0,0" Name="Ch1Energy" VerticalAlignment="Top" Width="120" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="239,121,0,0" Name="Ch2Energy" VerticalAlignment="Top" Width="120" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="239,206,0,0" Name="Ch3Energy" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Channel 1" Height="28" HorizontalAlignment="Left" Margin="128,42,0,0" Name="label2" VerticalAlignment="Top" />
+                    <Label Content="Channel 2" Height="28" HorizontalAlignment="Left" Margin="128,127,0,0" Name="label3" VerticalAlignment="Top" />
+                    <Label Content="Channel 3" Height="28" HorizontalAlignment="Left" Margin="128,212,0,0" Name="label4" VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
+
+
+
+
+

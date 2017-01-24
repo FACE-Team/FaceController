@@ -1,0 +1,16 @@
+﻿<Window x:Class="StatusMonitor.ChartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:winFormsChart="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        Title="ChartWindow" Height="300" Width="700" WindowStyle="ToolWindow" Closed="Window_Closed">
+    <Grid>
+        <Grid>
+            <DockPanel Name="MSChartPanelI" Grid.Row="0" Background="White">
+                <WindowsFormsHost Name="WindowsFormsHostChartI" Background="White" Margin="5">
+                    <winFormsChart:Chart x:Name="Chart0" Margin="0,0,0,0" />
+                </WindowsFormsHost>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>

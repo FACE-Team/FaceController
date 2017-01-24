@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{39CCEACA-F6C8-4894-ADF3-B152144C6C30}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FACEGui20</RootNamespace>
+    <AssemblyName>FACEGui20</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FACEGui20.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AppResources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\AppResources.dll</HintPath>
+    </Reference>
+    <Reference Include="ComUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\ComUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="ControllersLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\ControllersLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="YarpCS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\YarpCS.dll</HintPath>
+    </Reference>
+    <Reference Include="YarpManagerCS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\YarpManagerCS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="QuestionDialog.xaml.cs">
+      <DependentUpon>QuestionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WarningDialog.xaml.cs">
+      <DependentUpon>WarningDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ECSWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ErrorDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GamepadWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FACEGui20Win.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ECSWin.xaml.cs">
+      <DependentUpon>ECSWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorDialog.xaml.cs">
+      <DependentUpon>ErrorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GamepadWin.xaml.cs">
+      <DependentUpon>GamepadWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FACEGui20Win.xaml.cs">
+      <DependentUpon>FACEGui20Win.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ManualControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuestionDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WarningDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ManualControl.xaml.cs">
+      <DependentUpon>ManualControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\Add_dark-20.png" />
+    <Resource Include="Images\Buttons\Del_dark-20.png" />
+    <Resource Include="Images\Buttons\FaceConfig.png" />
+    <Resource Include="Images\Buttons\FaceConfigPressed.png" />
+    <Resource Include="Images\Buttons\FaceECS.png" />
+    <Resource Include="Images\Buttons\FaceECSPressed.png" />
+    <Resource Include="Images\Buttons\FaceEdit.png" />
+    <Resource Include="Images\Buttons\FaceEditPressed.png" />
+    <Resource Include="Images\Buttons\FaceGamepad.png" />
+    <Resource Include="Images\Buttons\FaceGamepadPressed.png" />
+    <Resource Include="Images\Buttons\FaceManual.png" />
+    <Resource Include="Images\Buttons\FaceManualPressed.png" />
+    <Resource Include="Images\Buttons\FaceView.png" />
+    <Resource Include="Images\Buttons\FaceViewPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DialogBoxes\Error-32.png" />
+    <Resource Include="Images\DialogBoxes\Information-32.png" />
+    <Resource Include="Images\DialogBoxes\Question-32.png" />
+    <Resource Include="Images\DialogBoxes\Warning-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Statusbar\Off-30.png" />
+    <Resource Include="Images\Statusbar\On-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ToolbarMenu\Close-32.png" />
+    <Resource Include="Images\ToolbarMenu\Face_config-32.png" />
+    <Resource Include="Images\ToolbarMenu\Face_edit-32.png" />
+    <Resource Include="Images\ToolbarMenu\Face_view-32.png" />
+    <Resource Include="Images\ToolbarMenu\File_save-32.png" />
+    <Resource Include="Images\ToolbarMenu\File_save_as-32.png" />
+    <Resource Include="Images\ToolbarMenu\Help-32.png" />
+    <Resource Include="Images\ToolbarMenu\New-32.png" />
+    <Resource Include="Images\ToolbarMenu\Open-32.png" />
+    <Resource Include="Images\ToolbarMenu\Refresh-32.png" />
+    <Resource Include="Images\ToolbarMenu\Settings-32.png" />
+    <Resource Include="Images\ToolbarMenu\Test-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Face.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\FaceTest.png" />
+    <Resource Include="Images\Buttons\FaceTestPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\FaceNet.png" />
+    <Resource Include="Images\Buttons\FaceNetPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\StatusMonitor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Expressions\AU_Anger.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expressions\AU_Disgust.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expressions\AU_Fear.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expressions\AU_Happiness.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expressions\AU_Neutral.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expressions\AU_Sadness.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Expressions\AU_Surprise.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\Blinking.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\ConfigOut.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\No.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Animations\Yes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ECS.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\logo1.png" />
+    <Resource Include="Images\logocp.png" />
+    <Resource Include="Images\Unipi_completa.jpg" />
+    <None Include="Resources\marchio_unipi_pant541_288.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FACEBodyControl\FACEBodyControl.csproj">
+      <Project>{b8895117-9357-4282-a4a8-42c06e600578}</Project>
+      <Name>FACEBodyControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FACEConfig\FACEConfig.csproj">
+      <Project>{38192e6b-e4b6-4560-930d-5ee481e09f43}</Project>
+      <Name>FACEConfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FACELibrary\FACELibrary.csproj">
+      <Project>{a47084a9-8ede-4c7c-9e48-4b0b5db046ed}</Project>
+      <Name>FACELibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusMonitor\StatusMonitor\StatusMonitor.csproj">
+      <Project>{6b9a41e7-3875-410f-999d-0c3b9348772d}</Project>
+      <Name>StatusMonitor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

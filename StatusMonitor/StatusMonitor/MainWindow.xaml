@@ -1,0 +1,228 @@
+﻿<Window x:Class="StatusMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:winFormsChart="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        Title="Status Monitor" Height="570" Width="780" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+
+    <!--#FFD6D6D6 <SolidColorBrush x:Key="ControlBackgroundBrush" Clor="#FFD6D6D6" />-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="BackgroundColor" Color="#FFD5D8DD" />
+            <Color x:Key="White">#FFFFFFFF</Color>
+            <ControlTemplate TargetType="ProgressBar" x:Key="pt1">
+                <Border BorderBrush="#BBC6C4" BorderThickness="1" CornerRadius="5" Padding="1">
+                    <Grid x:Name="progBar" >
+                        <Rectangle x:Name="PART_Track" Fill="White" RadiusX="5" RadiusY="5"/>
+
+                        <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left" RadiusX="5" RadiusY="5">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF1D5666" Offset="1"/>
+                                    <GradientStop Color="#FF09B6FF"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="LightSteelBlue" Offset="0" />
+                <GradientStop Color="White" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
+            
+            <RowDefinition Height="18" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="18" />
+            <RowDefinition Height="12" />
+
+            <RowDefinition Height="18" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="18" />
+            <RowDefinition Height="12" />
+
+            <RowDefinition Height="18" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="18" />
+            <RowDefinition Height="12" />
+
+            <RowDefinition Height="18" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="20" />
+
+            <RowDefinition Height="26" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="26" />
+            <ColumnDefinition Width="530" />
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="1" Grid.Column="2" Name="ButtonControl" Orientation="Horizontal" Background="Cornsilk">
+            <Button Name="SettingButton" Content="Settings" Margin="55,0,20,0" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SettingsButton_Click"/>
+            <Button Name="GraphButton" Content="Chart"      Margin="20,0" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ChartWindow_Click" />
+            <Button Name="PortButton" Content="Open"        Margin="20,0" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="PortButton_Click" />
+            <Button Name="SendButton" Content="Send"        Margin="20,0,55,0" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SendButton_Click" />
+            </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="2" Name="CheckboxControl" Orientation="Horizontal" Background="Cornsilk">
+            <CheckBox Name="ch1" Content="1 PWR 7.4V" Foreground="Black" VerticalAlignment="Center" Margin="4,0,0,0" FontSize="11" VerticalContentAlignment="Center" Checked="ch1_Checked" Unchecked="ch1_Unchecked"  IsEnabled="False"/>
+            <CheckBox Name="ch2" Content="2 PWR 7.4V" Foreground="Black" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="11" VerticalContentAlignment="Center" Checked="ch2_Checked" Unchecked="ch2_Unchecked" IsEnabled="False"/>
+            <CheckBox Name="ch3" Content="3 PWR 6.0V" Foreground="Black" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="11" VerticalContentAlignment="Center" Checked="ch3_Checked" Unchecked="ch3_Unchecked" IsEnabled="False"/>
+            <CheckBox Name="ch4" Content="4 PWR 6.0V" Foreground="Black" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="11" VerticalContentAlignment="Center" Checked="ch4_Checked" Unchecked="ch4_Unchecked" IsEnabled="False"/>
+            <CheckBox Name="ch5" Content="5 Digit 9.0V" Foreground="Black" VerticalAlignment="Center" Margin="15,0,0,0" FontSize="11" VerticalContentAlignment="Center" Checked="ch5_Checked" Unchecked="ch5_Unchecked" IsEnabled="False"/>
+            <CheckBox Name="ch6" Content="6 Fan 12.0V" Foreground="Black" VerticalAlignment="Center" Margin="5,0,4,0" FontSize="11" VerticalContentAlignment="Center" Checked="ch6_Checked" Unchecked="ch6_Unchecked" IsEnabled="False"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="2" Name="AttentionText">
+            <Label Name="textAllert" Foreground="#FFEB2424" FontWeight="Bold" FontFamily="Courier New" Visibility="Hidden">Don't check PWR buttons until config.xml is loaded</Label>
+        </StackPanel>
+
+        <Label      Grid.Row="4" Grid.Column="1" Content="0 A" Margin="2,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="4" Grid.Column="3" Content="4.5 A" Margin="2,0" Padding="0,0,0,2" />
+        <TickBar    Grid.Row="5" Grid.Column="2" Margin="1,0" TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="6" Grid.Column="0" Content="Ch2 Current" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <ProgressBar Grid.Row="6" Grid.Column="2" Name="progressBar1" Value="0" Maximum="4.5" Template="{StaticResource pt1}"  />
+        <TextBox    Grid.Row="6" Grid.Column="4" Name="textBox1" Text="" />
+
+        <Label      Grid.Row="7" Grid.Column="0" Content="Ch2 Voltage" Padding="0,0,0,2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+        <ProgressBar Grid.Row="7" Grid.Column="2" Name="progressBar2" Value="0" Maximum="9" Template="{StaticResource pt1}" />
+        <TextBox    Grid.Row="7" Grid.Column="4" Name="textBox2" Text="" />
+        <TickBar    Grid.Row="8" Grid.Column="2" Margin="1,0" TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="9" Grid.Column="1" Content="0 V" Margin="2,0,0,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="9" Grid.Column="3" Content="8.33 V" Margin="2,0,0,0" Padding="0,0,0,2" />
+
+
+        <Label      Grid.Row="11" Grid.Column="1" Content="0 A" Margin="2,0,0,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="11" Grid.Column="3" Content="4.5 A" Margin="2,0,0,0" Padding="0,0,0,2" />
+        <TickBar    Grid.Row="12" Grid.Column="2" Margin="1,0"  TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="13" Grid.Column="0" Content="Ch3 Current" Padding="0,0,0,2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+        <ProgressBar Grid.Row="13" Grid.Column="2" Name="progressBar3" Value="0" Maximum="4.5" Template="{StaticResource pt1}"  />
+        <TextBox    Grid.Row="13" Grid.Column="4" Name="textBox3" Text="" />
+
+        <Label      Grid.Row="14" Grid.Column="0" Content="Ch3 Voltage" Padding="0,0,0,2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+        <ProgressBar Grid.Row="14" Grid.Column="2" Name="progressBar4" Value="0" Maximum="9" Template="{StaticResource pt1}" />
+        <TextBox    Grid.Row="14" Grid.Column="4" Name="textBox4" Text="" />
+        <TickBar    Grid.Row="15" Grid.Column="2" Margin="1,0"  TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="16" Grid.Column="1" Content="0 V" Margin="2,0,0,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="16" Grid.Column="3" Content="8.33 V" Margin="2,0,0,0" Padding="0,0,0,2" />
+
+
+        <Label      Grid.Row="18" Grid.Column="1" Content="0 A" Margin="2,0,0,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="18" Grid.Column="3" Content="4.5 A" Margin="2,0,0,0" Padding="0,0,0,2" />
+        <TickBar    Grid.Row="19" Grid.Column="2" Margin="1,0"  TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="20" Grid.Column="0" Content="Ch4 Current" Padding="0,0,0,2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+        <ProgressBar Grid.Row="20" Grid.Column="2" Name="progressBar5" Value="0" Maximum="4.5" Template="{StaticResource pt1}"  />
+        <TextBox    Grid.Row="20" Grid.Column="4" Name="textBox5" Text="" />
+
+        <Label      Grid.Row="21" Grid.Column="0" Content="Ch4 Voltage" Padding="0,0,0,2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+        <ProgressBar Grid.Row="21" Grid.Column="2" Name="progressBar6" Value="0" Maximum="9" Template="{StaticResource pt1}" />
+        <TextBox    Grid.Row="21" Grid.Column="4" Name="textBox6" Text="" />
+        <TickBar    Grid.Row="22" Grid.Column="2" Margin="1,0"  TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="23" Grid.Column="1" Content="0 V" Margin="2,0,0,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="23" Grid.Column="3" Content="8.33 V" Margin="2,0,0,0" Padding="0,0,0,2" />
+
+        <Label      Grid.Row="25" Grid.Column="1" Content="0 W" Margin="2,0,0,0" Padding="0,0,0,2" HorizontalContentAlignment="Right" />
+        <Label      Grid.Row="25" Grid.Column="3" Content="30 W" Margin="2,0,0,0" Padding="0,0,0,2" />
+        <TickBar    Grid.Row="26" Grid.Column="2" Margin="1,0"  TickFrequency="3.33333334" Placement="Top" Fill="Black" />
+        <Label      Grid.Row="27" Grid.Column="0" Content="Total power" Padding="0,0,0,2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+        <ProgressBar Grid.Row="27" Grid.Column="2" Name="progressBar7" Value="0" Maximum="30" Template="{StaticResource pt1}"  />
+        <TextBox    Grid.Row="27" Grid.Column="4" Name="textBox7" Text="" />
+
+        <TextBox  Grid.Row="29" Grid.Column="2" Name="textBlock" Text="" Padding="2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+
+        <StatusBar Grid.ColumnSpan="6" Grid.Row="30">
+            <StatusBar.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFCFAFA" Offset="0"/>
+                    <GradientStop Color="#7F434B5F" Offset="1"/>
+                    <GradientStop Color="#D2CDCBCB" Offset="0.434" />
+                </LinearGradientBrush>
+            </StatusBar.Background>
+            <StatusBarItem x:Name="SBPortName" Content="Port: " Margin="5,-2,0,0" />
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextNamePort" Text="" TextWrapping="Wrap" Width="50" />
+            </StatusBarItem>
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextStatusPort" Text="" TextWrapping="Wrap" Width="50"/>
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2" VerticalAlignment="Stretch" />
+            <StatusBarItem>
+                <TextBlock Name="StatusbarInfo" Text="" TextWrapping="Wrap" />
+            </StatusBarItem>
+        </StatusBar>
+        
+        <!--<Label Content="0 A" Width="Auto" Height="auto" Margin="0,0,2,0" Name="label5" Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="11" Grid.RowSpan="2" />
+            <Label Content="30 A" Height="auto" Name="label6" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="11" Grid.RowSpan="2" Margin="25,0,0,0" />
+
+            <TickBar Grid.Column="3" Grid.Row="12" MaxHeight="10" TickFrequency="3.33333334" Placement="Top" Margin="0,7,0,2" Width="Auto" Height="Auto" Fill="Black" Grid.ColumnSpan="6" />
+            <ProgressBar Value="0" Grid.Column="3" Grid.Row="13" Maximum="9" Name="progressBar3" Template="{StaticResource pt1}" Grid.ColumnSpan="6" />
+            <TextBox Grid.Column="10" Grid.Row="13" Name="textBox3" Text="" Padding="2" Grid.ColumnSpan="2" />
+
+            <TickBar Grid.Column="3" Grid.Row="16" MaxHeight="10" TickFrequency="10" Placement="Bottom" Margin="0,2,0,7" Width="Auto" Height="Auto" Fill="Black" Grid.ColumnSpan="6" />
+            <ProgressBar Value="0" Grid.Column="3" Grid.Row="15" Height="Auto" Maximum="9" Name="progressBar4" Template="{StaticResource pt1}" Grid.ColumnSpan="6" />
+            <TextBox Grid.Column="10" Grid.Row="15" Name="textBox4" Text="" Padding="2" Grid.ColumnSpan="2" />
+
+            <Label Content="0 V" Name="label7" Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="16" Grid.RowSpan="3" Margin="0,6,2,0" />
+            <Label Content="8.33 V" Name="label8" Grid.Column="9" Grid.ColumnSpan="3" Grid.Row="16" Grid.RowSpan="4" Margin="0,11,0,0" />
+
+
+            <Label Content="0 A" Width="Auto" Height="auto" Margin="0,0,2,0" Name="label9" Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="18" Grid.RowSpan="3" />
+            <Label Content="30 A" Height="auto" Name="label10" Grid.Column="9" Grid.ColumnSpan="3" Grid.Row="18" Grid.RowSpan="3" />
+
+            <TickBar Grid.Column="3" Grid.Row="19" MaxHeight="10" TickFrequency="3.33333334" Placement="Top" Margin="0,7,0,2" Width="Auto" Height="Auto" Fill="Black" Grid.ColumnSpan="6" />
+            <ProgressBar Grid.Column="3" Grid.Row="20" Maximum="9" Name="progressBar5" Template="{StaticResource pt1}" Grid.ColumnSpan="6" />
+            <TextBox Grid.Column="10" Grid.Row="20" Name="textBox5" Text="" Padding="2" Grid.ColumnSpan="2" />
+
+            <TickBar Grid.Column="3" Grid.Row="23" MaxHeight="10" TickFrequency="10" Placement="Bottom" Margin="0,2,0,7" Width="Auto" Height="Auto" Fill="Black" Grid.ColumnSpan="6" />
+            <ProgressBar Value="0" Grid.Column="3" Grid.Row="22" Maximum="9" Name="progressBar6" Template="{StaticResource pt1}" Grid.ColumnSpan="6" />
+            <TextBox Grid.Column="10" Grid.Row="22" Name="textBox6" Text="" Padding="2" Grid.ColumnSpan="2" />
+
+            <Label Content="0 V" Name="label11" Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="23" Grid.RowSpan="4" Margin="0,11,2,0" />
+            <Label Content="8.33 V" Name="label12" Grid.Column="9" Grid.ColumnSpan="3" Grid.Row="23" Grid.RowSpan="4" Margin="0,11,0,0" />-->
+
+            <!--<Label Content="10 °C" Width="Auto" Height="auto" Margin="6,0,22,0" Name="label13" Grid.Column="2" Grid.ColumnSpan="7" Grid.Row="25" Grid.RowSpan="3" />
+            <Label Content="115 °C" Height="auto" Name="label14" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="25" Grid.RowSpan="3" Margin="23,0,0,0" />
+
+            <TickBar Grid.Column="3" Grid.Row="26" MaxHeight="10" TickFrequency="4.3478261" Placement="Top" Margin="0,7,0,2" Width="Auto" Height="Auto" Fill="Black" Grid.ColumnSpan="6" />
+            <ProgressBar Grid.Column="3" Grid.Row="27" Maximum="9" Name="progressBar7" Template="{StaticResource pt1}" Grid.ColumnSpan="6" />
+            <TextBox Grid.Column="10" Grid.Row="27" Name="textBox7" Text="" Padding="2" Grid.ColumnSpan="2" />
+
+            <TickBar Grid.Column="3" Grid.Row="30" MaxHeight="10" TickFrequency="4.3478261" Placement="Bottom" Margin="0,2,0,7" Width="Auto" Height="Auto" Fill="Black" Grid.ColumnSpan="6" />
+            <ProgressBar Value="0" Grid.Column="3" Grid.Row="29" Maximum="9" Name="progressBar8" Template="{StaticResource pt1}" Grid.ColumnSpan="6" />
+            <TextBox Grid.Column="10" Grid.Row="29" Name="textBox8" Text="" Padding="2" Grid.ColumnSpan="2" />
+
+            <Label Content="10 °C" Name="label15" Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="30" Grid.RowSpan="3" Margin="0,11,2,0" />
+            <Label Content="115 °C" Name="label16" Grid.Column="8" Grid.ColumnSpan="4" Grid.Row="30" Grid.RowSpan="3" Margin="25,11,0,0" />-->
+
+            <!--<Label Content="Current2" Grid.Row="13" Grid.Column="1" Grid.RowSpan="2" Width="113" HorizontalAlignment="Left" Name="label19" Grid.ColumnSpan="3" />
+            <Label Content="Voltage2" Grid.Row="15" Grid.Column="1" Grid.RowSpan="3" HorizontalAlignment="Left" Name="label20" Width="86" Margin="0,0,0,9" Grid.ColumnSpan="2" />
+            <Label Content="Current3" Grid.Row="20" Grid.Column="1" Grid.RowSpan="2" Width="113" HorizontalAlignment="Left" Name="label21" Grid.ColumnSpan="3" />
+            <Label Content="Voltage3" Grid.Row="22" Grid.Column="1" Grid.RowSpan="3" HorizontalAlignment="Left" Name="label22" Width="86" Margin="0,0,0,9" Grid.ColumnSpan="2" />
+            <Label Content="Temp. 1" Grid.Row="27" Grid.Column="1" Grid.RowSpan="2" Width="113" HorizontalAlignment="Left" Name="label23" Grid.ColumnSpan="3" />
+            <Label Content="Temp. 2" Grid.Row="29" Grid.RowSpan="3" Name="label24" Margin="0,0,0,9" HorizontalAlignment="Left" Width="86" Grid.Column="1" Grid.ColumnSpan="2" />-->
+        </Grid>
+        
+</Window>

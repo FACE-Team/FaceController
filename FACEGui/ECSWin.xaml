@@ -1,0 +1,18 @@
+﻿<Window x:Class="FACEGui20.ECSWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ControllersLibrary;assembly=ControllersLibrary"
+        Title="ECSWin" Width="430" Height="450" >
+    
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF464646" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid Name="MainGrid">
+        <local:ECSController Name="ecsController"/>
+    </Grid>
+</Window>
+

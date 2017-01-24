@@ -1,0 +1,99 @@
+﻿<Window x:Class="FACEGui20.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Width="430" Height="550" ResizeMode="NoResize" 
+        Icon="/Images/ToolbarMenu/Settings-32.png" Loaded="Settings_Loaded">
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF000000" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid x:Name="GridLayout">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="470"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TabControl Grid.Row="0" Style="{StaticResource TabControlStyle}" Margin="20,20,20,0">
+            <TabItem Style="{StaticResource TabItemStyle}" Header="ComPort" Visibility="Hidden" IsEnabled="False">
+                <GroupBox Grid.Row="0" Margin="10,10,10,0" FontStyle="Normal" Visibility="Hidden">
+                    <GroupBox.Header>
+                        <Label Content="OPTIONS" FontSize="11" FontStyle="Italic" FontWeight="Bold" />
+                    </GroupBox.Header>
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Content="Standard Type" Width="Auto" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="0" x:Name="standardCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="267" VerticalAlignment="Center"/>
+                        <Label Grid.Row="1" Content="COM Port" Width="Auto" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="1" Name="comPortCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="130" VerticalAlignment="Center"/>
+                        <Label Grid.Row="2" Content="Bits per second" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                        <ComboBox Grid.Row="2" Name="bitRateCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="130" VerticalAlignment="Center"/>
+                        <Label Grid.Row="3" Content="Data Bits" Width="Auto" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="3" Name="dataBitsCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="130" VerticalAlignment="Center"/>
+                        <Label Grid.Row="4" Content="Parity" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                        <ComboBox Grid.Row="4" Name="parityCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="130" VerticalAlignment="Center"/>
+                        <Label Grid.Row="5" Content="Stop Bits" Width="Auto" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="5" Name="stopBitsCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="130" VerticalAlignment="Center"/>
+                        <Label Grid.Row="6" Content="Handshaking" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+                        <ComboBox Grid.Row="6" Name="handshakingCombo" Grid.Column="1" Margin="20,0" MaxDropDownHeight="130" VerticalAlignment="Center"/>
+                        <Button Grid.Row="7"  Grid.Column="1" Name="RestoreButton" Style="{StaticResource ButtonStyle}" Click="PortRestoreButton_Click" 
+                                Height="26" Width="75" Content="Restore" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0" />
+                    </Grid>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Style="{StaticResource TabItemStyle}" Header="Webcam" IsSelected="True" >
+                <Grid Width="350">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="370"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Margin="10,10,10,5" FontStyle="Normal">
+                        <GroupBox.Header>
+                            <Label Content="WEBCAM OPTIONS" FontSize="11" FontStyle="Italic" FontWeight="Bold" />
+                        </GroupBox.Header>
+                        <Grid Margin="5,5,5,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Content="Webcam" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="0" x:Name="webcamCombo" Grid.Column="1" Margin="10,0,10,0" MaxDropDownHeight="267" VerticalAlignment="Center"/>
+                        </Grid>
+                    </GroupBox>
+                    <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Click="WebcamRestoreButton_Click" Height="26" Content="Restore" VerticalAlignment="Center" HorizontalAlignment="Right"  Margin="0,0,20,0" Width="75" />
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+        <DockPanel Grid.Row="1" Background="{x:Null}" Margin="1">
+            <Button Name="ApplyButton" Style="{StaticResource ButtonStyle}" Click="ApplyButton_Click" Height="26" Width="75" Content="Apply" VerticalAlignment="Center" HorizontalAlignment="Right"  Margin="0,0,20,0" DockPanel.Dock="Right"  />
+            <Button Name="CancelButton" Style="{StaticResource ButtonStyle}" Click="CancelButton_Click" Height="26" Width="75" Content="Cancel" VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="0,0,5,0" DockPanel.Dock="Right" />
+            <Button Name="OkButton" Style="{StaticResource ButtonStyle}" Click="OkButton_Click" Height="26" Width="75" Content="Ok" VerticalAlignment="Center" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="0,0,5,0" />
+        </DockPanel>
+    </Grid>
+</Window>

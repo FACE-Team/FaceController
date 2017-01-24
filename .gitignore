@@ -1,0 +1,6 @@
+/bin
+/FACEBodyControl/obj
+/FACEConfig/obj
+/*.suo
+/FACEGui/obj
+/StatusMonitor/bin

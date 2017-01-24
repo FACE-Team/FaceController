@@ -1,0 +1,254 @@
+﻿<Window x:Class="FACEConfig.FACEConfigWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:local="clr-namespace:ControllersLibrary;assembly=ControllersLibrary"
+        Title="FACE Configuration Tool" Background="Black" ResizeMode="NoResize" Height="550" Width="500">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Shared.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AppResources;component/Resources/Slider.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="34"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+
+        <!-- MENU -->
+        <Menu Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25">
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Pad">
+                    <GradientStop Color="#FF606060" Offset="0"/>
+                    <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                    <GradientStop Color="#FF272626" Offset="0"/>
+                    <GradientStop Color="#FF7E7E7E" Offset="0"/>
+                    <GradientStop Color="#FFE7E7E7" Offset="1"/>
+                    <GradientStop Color="#FF7D7D7D" Offset="1"/>
+                </LinearGradientBrush>
+            </Menu.Background>
+            <MenuItem x:Name="File" Header="_File" Width="Auto" Height="Auto" Margin="0,3,0,1">
+                <MenuItem x:Name="Save" Header="_Save" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/File_save-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SaveAs" Header="_Save as..." InputGestureText="Ctrl+Shift+S">
+                    <!--<MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/File_save_as-32.png"/>
+                    </MenuItem.Icon>-->
+                </MenuItem>
+                <Separator />
+                <MenuItem x:Name="Export" Header="_Export file">
+                    <!--<MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/File_export_save-32.png"/>
+                    </MenuItem.Icon>-->
+                    <MenuItem Header="Xml" />
+                    <MenuItem Header="..." />
+                    <MenuItem Header="..." />
+                </MenuItem>
+                <MenuItem x:Name="Import" Header="_Import file...">
+                    <!--<MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/File_import_save-32.png"/>
+                    </MenuItem.Icon>-->
+                </MenuItem>
+                <Separator />
+                <MenuItem x:Name="Exit" Header="Exit" InputGestureText="Ctrl+Q">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Close-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="Test" Header="_Test" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,3,0,1">
+                <MenuItem x:Name="TestExpression" Header="Test_Expression">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Test-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="Tools" Header="_Tools" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,3,0,1">
+                <MenuItem x:Name="Settings" Header="_Settings..." InputGestureText="Ctrl+T" Click="SettingsButton_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Settings-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="Help" Header="_Help" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,3,0,1">
+                <MenuItem x:Name="UserGuide" Header="_UserGuide" InputGestureText="F1" >
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Help-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- TOOLBAR TRAY -->
+        <ToolBarTray Grid.RowSpan="1" Grid.Row="1" Height="34" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+            <ToolBar Height="34" Width="250" Margin="-2,0,0,0">
+                <ToolBar.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFFAF9F5" Offset="0.098"/>
+                        <GradientStop Color="#E5858585" Offset="1"/>
+                    </LinearGradientBrush>
+                </ToolBar.Background>
+                <Button Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Save" Click="FileSaveButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/File_save-32.png" />
+                </Button>
+                <Button Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Save As" Click="SaveAsButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/File_save_as-32.png" />
+                </Button>
+                <Button Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Test Expression" Click="TestConfigButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Test-32.png" />
+                </Button>
+                <Separator/>
+                <Separator/>
+                <Button Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Settings" Click="SettingsButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Settings-32.png" />
+                </Button>
+                <Separator/>
+                <Separator/>
+                <Button Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Help" Margin="2,0,0,0" IsDefault="True" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Help-32.png" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <Grid x:Name="LayoutRootOld" Grid.Row="2" Margin="0,1" >
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF464646" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFADADAD" Offset="0.343"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="2" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid x:Name="ConfigGrid" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="34"/>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="142"/>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="27*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Margin="0,18,0,0" Content="Select the facial zone to configure:" TextBlock.FontSize="14px" TextBlock.Foreground="#242424" TextBlock.FontFamily="Trebuchet MS" 
+				TextBlock.FontWeight="Bold" Height="27" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <!--Face zone-->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <RadioButton Name="FaceRadioButton" Checked="FaceRadioButton_Checked" Margin="8">Face</RadioButton>
+                    <RadioButton Name="NeckRadioButton" Checked="NeckRadioButton_Checked" Margin="8">Neck</RadioButton>
+                    <RadioButton Name="EyesRadioButton" Checked="EyesRadioButton_Checked" Margin="8">Eyes</RadioButton>
+                </StackPanel>
+                <!-- Select Servo Motor-->
+                <Label Grid.Row="2" Content="Select the servomotor to configure:" TextBlock.FontSize="14px" TextBlock.Foreground="#2E2E2E" TextBlock.FontFamily="Trebuchet MS" TextBlock.FontWeight="Bold" Height="28" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0"/>
+                <ComboBox Grid.Row="3" x:Name="ServoMotorsCombo" SelectionChanged="ServoMotorsCombo_SelectionChanged" Margin="25,0" MaxDropDownHeight="267" VerticalAlignment="Center" IsEnabled="False"/>
+                <!--Select Servo Controller-->
+                <Label Grid.Row="4" Content="Servo Controller:" TextBlock.FontSize="14px" TextBlock.Foreground="#2E2E2E" TextBlock.FontFamily="Trebuchet MS" TextBlock.FontWeight="Bold" Height="28" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="61,6,79,0"/>
+                <ComboBox Grid.Row="5" x:Name="ServoControllerPortCombo"  Margin="-5,6,177,7" MaxDropDownHeight="267" VerticalAlignment="Center" Height="21" Width="22" IsEnabled="False" />
+                <ComboBox Grid.Row="5" x:Name="ServoControllerCombo"  Margin="116,6,74,7" MaxDropDownHeight="267" VerticalAlignment="Center" Height="21" Width="112" SelectionChanged="ServoControllerCombo_SelectionChanged" IsEnabled="False" />
+                <Button x:Name="SetSC" Style="{StaticResource ButtonStyle}" Grid.Row="5" Click="SetSC_Click" Margin="235,3,29,3" IsDefault="True" Width="38" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False">
+                    <Label x:Name="SerialButtonLabel" Content="Set" HorizontalAlignment="Center" />
+                </Button>
+                <Label Grid.Row="6" Content="Set minimum e maximum values:" TextBlock.FontSize="14px" TextBlock.Foreground="#333" TextBlock.FontFamily="Trebuchet MS" 
+				TextBlock.FontWeight="Bold" Height="26.9" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="18,0,17,0" />
+
+                <Border Grid.Row="7" Name="Border" Margin="0,5" Padding="2" SnapsToDevicePixels="true" BorderThickness="1" CornerRadius="2">
+                    <DockPanel x:Name="ManualPanel" Height="110" IsEnabled="False">
+                        <Grid Margin="0,0,0,10" Background="{x:Null}" DockPanel.Dock="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="58"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="58"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="SetMinButton" Style="{StaticResource ButtonStyle}" Grid.Column="0" Click="SetMinButton_Click" Margin="0,3,0,3" 
+                                    IsDefault="True" Width="58" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label x:Name="MinButtonLabel" Content="Set Min" HorizontalAlignment="Center" />
+                            </Button>
+                            <TextBox x:Name="PositionBox" Grid.Column="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" 
+                                     Margin="45,0,45,0" TextAlignment="Center" TextChanged="PositionBox_TextChanged" IsEnabled="False" />
+                            <Button x:Name="SetMaxButton" Style="{StaticResource ButtonStyle}" Grid.Column="2" Click="SetMaxButton_Click" Margin="0,3,0,3" 
+                                    IsDefault="True" Width="58" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label x:Name="MaxButtonLabel" Content="Set Max" HorizontalAlignment="Center" />
+                            </Button>
+                        </Grid>
+                        <StackPanel Margin="0,0,0,10" VerticalAlignment="Stretch" Grid.Row="1" DockPanel.Dock="Top">
+                            <Slider Name="SliderControl" Style="{StaticResource SliderStyle}" IsEnabled="False" Value="0" SmallChange="1" 
+                                    Minimum="0" Maximum="1" Orientation="Horizontal" VerticalAlignment="Center" ValueChanged="Slider_ValueChanged" />                            
+                        </StackPanel>                        
+                        <Grid Margin="0,0,0,5" VerticalAlignment="Stretch" Background="{x:Null}" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="TestMinMaxButton" Grid.Column="0" Click="TestMinMaxButton_Click" Style="{StaticResource ButtonStyle}" 
+                                    IsDefault="True" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="6,0" Width="82">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Test Min/Max" Height="24" Padding="0,4" Width="78" HorizontalContentAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="TestValueButton" Grid.Column="1" Click="TestValueButton_Click" Style="{StaticResource ButtonStyle}" 
+                                    IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,0" Width="82">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Test Value" Height="24" Padding="0,4" Width="78" HorizontalContentAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <StackPanel Grid.Row="8" Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Content="Min: " Margin="5,0,0,0" Width="36" Height="24" Foreground="#222" FontWeight="Bold" VerticalContentAlignment="Center" />
+                    <Label Name="CurrentMinValue" Content="" Width="40" Height="24" Margin="0,0,10,0" Foreground="#222" />
+                    <Label Content="Max: " Margin="10,0,0,0" Width="36" Height="24" Foreground="#222" FontWeight="Bold" VerticalContentAlignment="Center" />
+                    <Label Name="CurrentMaxValue" Content="" Width="40" Height="24" Margin="0,0,5,0" Foreground="#222" />
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+
+        <!-- STATUSBAR -->
+        <StatusBar Grid.Row="3">
+            <StatusBar.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFFAF9F5" Offset="0.098"/>
+                    <GradientStop Color="#E5858585" Offset="1"/>
+                </LinearGradientBrush>
+            </StatusBar.Background>
+            <StatusBarItem Content="ServoController: " x:Name="SBPortName" HorizontalAlignment="Left" Margin="0,-2,0,0"/>
+            <StatusBarItem>
+                <TextBlock Text="" TextWrapping="Wrap" x:Name="TextServoController" Width="250" Margin="-2,0,0,0" />
+            </StatusBarItem>
+            
+           
+            <Separator HorizontalAlignment="Left" Margin="5,2" />
+            <StatusBarItem>
+                <TextBlock Text="Time (ms): " TextWrapping="Wrap" x:Name="TextTime" Width="58" Margin="0,-2,0,0" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBox Text="2000" x:Name="SBTimeBox" TextChanged="SBTimeBox_TextChanged" Width="45" Margin="0,-2,0,0"/>
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2" />
+            <StatusBarItem>
+                <TextBlock Text="" TextWrapping="Wrap" x:Name="TextInfo" Margin="0,-2,0,0" />
+            </StatusBarItem>            
+        </StatusBar>
+    </Grid>
+
+</Window>

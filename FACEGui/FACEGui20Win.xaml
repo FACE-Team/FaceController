@@ -1,0 +1,976 @@
+﻿<Window x:Class="FACEGui20.FACEGui20Win"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControllersLibrary;assembly=ControllersLibrary"
+        mc:Ignorable="d" BorderBrush="#FF000000" Foreground="{x:Null}" 
+        Title="FACEGui" Width="1280" MinWidth="1280" Height="778" MinHeight="750" 
+        WindowStartupLocation="CenterScreen" PreviewKeyDown="Window_PreviewKeyDown" 
+        PreviewKeyUp="Window_PreviewKeyUp" AllowsTransparency="False" Visibility="Visible" OverridesDefaultStyle="False" KeyUp="Window_PreviewKey" ResizeMode="NoResize">
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF464646" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF000000" Offset="0.083"/>
+                <GradientStop Color="#FFDAD9D9" Offset="0.798"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="34"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2"/>
+            <!--<RowDefinition Height="100"/>-->
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+
+        <!-- MENU -->
+        <Menu Grid.Row="0"  HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Top" Width="Auto" Height="25">
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" SpreadMethod="Pad">
+                    <GradientStop Color="#FF606060" Offset="0"/>
+                    <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                    <GradientStop Color="#FF272626" Offset="0"/>
+                    <GradientStop Color="#FF7E7E7E" Offset="0"/>
+                    <GradientStop Color="#FFE7E7E7" Offset="1"/>
+                    <GradientStop Color="#FF7D7D7D" Offset="1"/>
+                </LinearGradientBrush>
+            </Menu.Background>
+            <MenuItem x:Name="FileItem" Header="_File" Width="40" Margin="0,3,0,1">
+                <MenuItem x:Name="New" Header="_New..." InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/New-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="Open" Header="_Open..." InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Open-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem x:Name="Save" Header="_Save" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/File_save-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SaveAs" Header="_Save as..." InputGestureText="Ctrl+Shift+S">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/File_save_as-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem x:Name="Exit" Header="Exit" InputGestureText="Ctrl+Q">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Close-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="View" Header="_View" Width="Auto" Height="Auto" Margin="0,3,0,1">
+            </MenuItem>
+            <MenuItem x:Name="Test" Header="_Test" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,3,0,1">
+                <MenuItem x:Name="TestExpression" Header="Test_Expression" Click="TestExpressionButton_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Test-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="Tools" Header="_Tools" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,3,0,1">
+                <MenuItem x:Name="Settings" Header="_Settings..." InputGestureText="Ctrl+T" Click="SettingsButton_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Settings-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="Help" Header="_Help" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,3,0,1">
+                <MenuItem x:Name="UserGuide" Header="_UserGuide" InputGestureText="F1" >
+                    <MenuItem.Icon>
+                        <Image Source="/Images/ToolbarMenu/Help-32.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- TOOLBAR TRAY -->
+        <ToolBarTray Grid.Row="1" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top">
+            <ToolBar Name="CommonButtonsToolbar" Height="34" Margin="-2,0,0,0" Band="0" BandIndex="0">
+                <ToolBar.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFFAF9F5" Offset="0.098"/>
+                        <GradientStop Color="#E5858585" Offset="1"/>
+                    </LinearGradientBrush>
+                </ToolBar.Background>
+                <Button Name="NewButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="New expression" Click="NewFileButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/New-32.png" />
+                </Button>
+                <Button Name="LoadButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Open expression" Click="OpenButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Open-32.png" />
+                </Button>
+                <Button Name="SaveButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Save expression" Click="SaveButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/File_save-32.png" />
+                </Button>
+                <Button Name="SaveAsButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Save expression as" Click="SaveAsButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/File_save_as-32.png" />
+                </Button>
+                <Separator/>
+                <Separator/>
+                <Button Name="TestButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Test Expression" Click="TestExpressionButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Test-32.png" />
+                </Button>
+                <Button Name="SettingsButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Settings" Click="SettingsButton_Click" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Settings-32.png" />
+                </Button>
+                <Separator/>
+                <Separator/>
+                <Button Name="HelpButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Help" Margin="2,0,0,0" Width="36">
+                    <Image Source="/Images/ToolbarMenu/Help-32.png" />
+                </Button>
+            </ToolBar>
+
+        </ToolBarTray>
+
+        <!-- CONTENT -->
+        <Grid Grid.Row="2" Height="Auto" Width="Auto" Margin="0,0,0,1" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="72"></ColumnDefinition>
+                <ColumnDefinition Width="3"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT PART OF CONTENT GRID -->
+            <Grid Name="LeftContentGrid" Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="False" Margin="0,2,0,1">
+                <StackPanel Margin="1,0" Orientation="Vertical">
+                    <Button Name="ViewButton" Style="{StaticResource ButtonStyle}" Click="ViewButton_Click" ToolTip="View mode" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/FaceView.png" Width="70" />
+                    </Button>
+                    <Button Name="EditButton" Style="{StaticResource ButtonStyle}" Click="EditButton_Click" ToolTip="Edit mode" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/FaceEdit.png" Width="70" />
+                    </Button>
+                    <Button Name="NetButton" Style="{StaticResource ButtonStyle}" Click="NetButton_Click" ToolTip="Net mode" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/FaceNet.png" Width="70" />
+                    </Button>
+                    <Button Name="ECSButton" Style="{StaticResource ButtonStyle}" Click="ECSButton_Click" ToolTip="ECS mode" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/FaceECS.png" Width="70" />
+                    </Button>
+                    <Button Name="GamepadButton" Style="{StaticResource ButtonStyle}" Click="GamepadButton_Click" ToolTip="Gamepad mode" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/FaceGamepad.png" Width="70" />
+                    </Button>
+                    <Button Name="RecognitionTestButton" Style="{StaticResource ButtonStyle}" Click="RecognitionTestButton_Click" ToolTip="Test mode" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/FaceTest.png" Width="70" />
+                    </Button>
+                    <Button Name="ConfigButton" Style="{StaticResource ButtonStyle}" Click="ConfigButton_Click" ToolTip="Config" Width="70" Height="80" Visibility="Collapsed">
+                        <Image Source="Images/Buttons/FaceConfig.png" Width="70" />
+                    </Button>
+
+                    <Button Name="StatusButton" Style="{StaticResource ButtonStyle}" Click="StatusButton_Click" ToolTip="Status monitor" Width="70" Height="80">
+                        <Image Source="/Images/Buttons/StatusMonitor.png" Height="63" Width="50" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" Grid.Row="0" Height="Auto" 
+				Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="True" BorderBrush="#FF000000" >
+                <GridSplitter.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </GridSplitter.Background>
+            </GridSplitter>
+
+            <!-- RIGHT PART OF CONTENT GRID: FIRST GRID -->
+            <Grid Grid.Column="2" Name="CentralContentGrid" Margin="0,1" Background="White">
+
+                <!-- VIEW GRID -->
+                <Grid Name="ViewGrid" Visibility="Hidden">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="450"/>
+                        <ColumnDefinition Width="2"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Buttons StackPanel -->
+                    <GroupBox Grid.Column="0" Margin="5">
+                        <GroupBox.Header>
+                            <Label Content="MOTION" FontSize="13" FontStyle="Italic" FontWeight="Bold" />
+                        </GroupBox.Header>
+
+                        <ScrollViewer Style="{StaticResource LeftScrollViewer}" Background="#FF6D6D6D">
+                            <StackPanel>
+                                <!-- Expressions Expander -->
+                                <Expander Name="ExpressionsExpander" Margin="8,4" Header="Expressions" Padding="3" BorderBrush="#FFC1C2BF" BorderThickness="1">
+                                    <DockPanel x:Name="ExpressionPanel" HorizontalAlignment="Left" MaxWidth="400">
+                                        <WrapPanel Width="380">
+                                            <Button Style="{StaticResource ButtonStyle}" Name="ResetButton" Click="ResetButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Reset" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="NeutralButton" Click="NeutralButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Neutral" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="HappyButton" Click="HappyButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Happy" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="AngryButton" Click="AngryButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Angry" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="SadButton" Click="SadButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Sad" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="DisgustButton" Click="DisgustButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Disgust" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="FearButton" Click="FearButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Fear" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="SurpriseButton" Click="SurpriseButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Surprise" />
+                                                </StackPanel>
+                                            </Button>
+                                        </WrapPanel>
+                                    </DockPanel>
+                                </Expander>
+                                <!-- Reflexes Expander -->
+                                <Expander Name="ReflexesExpander" Margin="8,4" Header="Reflexes" Padding="3" BorderBrush="#FFC1C2BF" BorderThickness="1">
+                                    <DockPanel x:Name="ReflexesPanel" HorizontalAlignment="Left" Width="400">
+                                        <WrapPanel Width="380">
+                                            <Button Style="{StaticResource ButtonStyle}" Name="YesMovementButton" Click="YesMovementButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Yes Move" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="NoMovementButton" Click="NoMovementButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="No Move" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="CloseEyesButton" Click="CloseEyesButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Close Eyes" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ButtonStyle}" Name="OpenEyesButton" Click="OpenEyesButton_Click" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Open Eyes" />
+                                                </StackPanel>
+                                            </Button>
+                                        </WrapPanel>
+                                    </DockPanel>
+                                </Expander>
+                                <!-- Manual-->
+                                <Expander Name="NewSetExpression" Margin="8,4" Header="New Set Expression" Padding="3" BorderBrush="#FFC1C2BF" BorderThickness="1">
+                                    <DockPanel x:Name="NewSetExpressionPanel" HorizontalAlignment="Left" Width="400">
+                                        <WrapPanel Width="380" Orientation="Vertical" Name="NewSetExpressionPathWrapPanel">
+                                            <StackPanel Orientation="Vertical">
+                                                <CheckBox Name="EnabledKeyPress" IsChecked="False" Content="Enabled Key Press and Button" Click="EnabledKeyPress_Click"></CheckBox>
+                                                <Separator  Margin="5,5,5,5" BorderBrush="Gray" Width="143" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button1" Click="Button1_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 1" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 1" Height="26" Width="43"></Label>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button2" Click="Button2_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 2" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 2" Height="26" Width="43"></Label>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button3" Click="Button3_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 3" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 3" Height="26" Width="43"></Label>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button4" Click="Button4_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 4" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 4" Height="26" Width="43"></Label>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button5" Click="Button5_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 5"  />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 5" Height="26" Width="43"></Label>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button6" Click="Button6_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 6" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 6" Height="26" Width="43"></Label>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button7" Click="Button7_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 7" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 7" Height="26" Width="43"></Label>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource ButtonStyle}" Name="Button8" Click="Button8_Click" IsEnabled="False" Margin="10" IsDefault="True" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="Button 8" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Label Content="Key 8" Height="26" Width="43"></Label>
+                                            </StackPanel>
+                                        </WrapPanel>
+                                    </DockPanel>
+                                </Expander>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </GroupBox>
+                    <!-- End Buttons StackPanel -->
+
+                    <GridSplitter Grid.Column="1" Height="Auto" Width="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                          IsEnabled="True" BorderBrush="#FF000000" Background="#FFAAAAAA" Margin="0,3" />
+
+                    <!-- Autonomous Activities -->
+                    <GroupBox Grid.Column="2" Margin="5">
+                        <GroupBox.Header>
+                            <Label Content="AUTONOMOUS ACTIVITIES" FontSize="13" FontStyle="Italic" FontWeight="Bold" />
+                        </GroupBox.Header>
+
+                        <ScrollViewer Style="{StaticResource LeftScrollViewer}" Background="#FF6D6D6D">
+                            <StackPanel>
+
+                                <!-- Blinking Expander -->
+                                <Expander Name="BlinkingExpander" Margin="8,4" Header="Blinking" Padding="3" BorderBrush="#FFC1C2BF" BorderThickness="1" >
+                                    <StackPanel x:Name="BlinkingPanel" VerticalAlignment="Top" Margin="0,5,0,0" HorizontalAlignment="Center" MaxWidth="600">
+
+                                        <!-- AutomaticBlinkingPanel -->
+                                        <StackPanel Name="AutomaticBlinkingPanel">
+                                            <CheckBox x:Name="AutomaticBlinkingCheckbox" Content="Automatic Eyes Blinking" Checked="CheckboxAutomaticBlinking_Checked" Unchecked="CheckboxAutomaticBlinking_Unchecked" 
+                                                                  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" Margin="5" FontSize="11"/>
+                                            <StackPanel Name="AutomaticBlinkingParams" Orientation="Vertical" IsEnabled="False">
+                                                <WrapPanel HorizontalAlignment="Center" Margin="0,10">
+                                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5" Width="600" >
+                                                        <Label Content="RATE" Height="24" Width="40" Margin="30,0,0,0" FontWeight="Normal"/>
+                                                        <TextBox Name="BlinkRateBox" Text="10" TextChanged="BlinkRateBox_TextChanged" TextWrapping="Wrap" Width="40" 
+                                                                             Height="24" Foreground="Black" />
+                                                        <Label Content="blink/min" Height="24" Width="60" FontWeight="Normal"/>
+
+                                                        <Label Content="CLOSED EYES FOR" Height="24" Width="110" Margin="30,0,0,0" FontWeight="Normal"/>
+                                                        <TextBox Name="BlinkTimeBox" Text="100" TextChanged="BlinkTimeBox_TextChanged" TextWrapping="Wrap" Width="40" 
+                                                                             Height="24" Foreground="Black" />
+                                                        <Label Content="millisec" Height="24" Width="50" FontWeight="Normal"/>
+
+                                                        <Label Content="SPEED" Height="24" Width="50" Margin="30,0,0,0" FontWeight="Normal"/>
+                                                        <TextBox Name="BlinkSpeedBox" Text="100" TextChanged="BlinkSpeedBox_TextChanged" TextWrapping="Wrap" Width="40" 
+                                                                             Height="24" Foreground="Black" />
+                                                        <Label Content="millisec" Height="24" Width="50" FontWeight="Normal"/>
+                                                    </StackPanel>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Separator Margin="0,10" HorizontalAlignment="Stretch"/>
+
+                                        <!-- ManualBlinkingPanel -->
+                                        <StackPanel Name="ManualBlinkingPanel" HorizontalAlignment="Center">
+                                            <CheckBox x:Name="ManualBlinkingCheckbox" Content="Manual Blinking" IsChecked="False" Checked="CheckboxManualBlinking_Checked" Unchecked="CheckboxManualBlinking_Unchecked" 
+                                                                  HorizontalAlignment="Center" FontWeight="Normal" Margin="5" FontSize="11"/>
+                                            <StackPanel Name="ManualBlinkingSliderPanel" Orientation="Vertical" IsEnabled="False">
+                                                <local:SliderController Uid="21" Name="EyeLidsLowerMB" Margin="0,3"/>
+                                                <local:SliderController Uid="22" Name="EyeLidsUpperMB" Margin="0,3"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Expander>
+
+                                <Expander Name="RespirationExpander" Margin="8,4" Header="Respiration" Padding="3" BorderBrush="#FFC1C2BF" BorderThickness="1" >
+                                    <StackPanel x:Name="RespirationPanel" VerticalAlignment="Top" Margin="0,5,0,0" HorizontalAlignment="Center" MaxWidth="600">
+
+                                        <!-- AutomaticRespirationPanel -->
+                                        <StackPanel Name="AutomaticRespirationPanel">
+                                            <CheckBox x:Name="AutomaticRespirationCheckbox" Content="Automatic Respiration" Checked="CheckboxAutomaticRespiration_Checked" Unchecked="CheckboxAutomaticRespiration_Unchecked" 
+                                                                  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" Margin="5" FontSize="11"/>
+                                            <StackPanel Name="AutomaticRespirationParams" Orientation="Vertical" IsEnabled="False">
+                                                <WrapPanel HorizontalAlignment="Center" Margin="0,10">
+                                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5" >
+                                                        <Label Content="RATE" Height="24" Width="40" Margin="30,0,0,0" FontWeight="Normal"/>
+                                                        <TextBox Name="RespirationRateBox" Text="8" TextChanged="RespirationRateBox_TextChanged" TextWrapping="Wrap" Width="40" 
+                                                                             Height="24" Foreground="Black" />
+                                                        <Label Content="resp/min" Height="24" Width="60" FontWeight="Normal"/>
+
+                                                        <Label Content="SPEED" Height="24" Width="50" Margin="30,0,0,0" FontWeight="Normal"/>
+                                                        <TextBox Name="RespirationSpeedBox" Text="3500" TextChanged="RespirationSpeedBox_TextChanged" TextWrapping="Wrap" Width="40" 
+                                                                             Height="24" Foreground="Black" />
+                                                        <Label Content="millisec" Height="24" Width="50" FontWeight="Normal"/>
+                                                    </StackPanel>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Expander>
+
+
+                            </StackPanel>
+
+                        </ScrollViewer>
+                    </GroupBox>
+                    <!-- End Autonomous Activities -->
+                </Grid>
+
+                <!-- EDIT GRID -->
+                <Grid Name="EditGrid" Visibility="Visible">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF4C4C59" Offset="1"/>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="350" MinWidth="350"></ColumnDefinition>
+                        <ColumnDefinition MinWidth="490" MaxWidth="490"></ColumnDefinition>
+                        <ColumnDefinition Width="350" MinWidth="350"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- LEFT PART OF CONTENT EDIT GRID -->
+                    <Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="False" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0*" />
+                            <ColumnDefinition Width="350*" />
+                        </Grid.ColumnDefinitions>
+                        <Border BorderThickness="1" Margin="1,2,2,1" Grid.Column="1">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                                    <GradientStop Color="#FFFAFAFA" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+
+                            <StackPanel Name="RightSlidersPanel" Orientation="Vertical" VerticalAlignment="Top">
+                                <!-- SliderControllers here -->
+                                <local:SliderController Uid="19" Name="FrownRightSC" />
+                                <local:SliderController Uid="23" Name="BrowOuterRightSC" />
+                                <local:SliderController Uid="24" Name="BrowInnerRightSC" />
+                                <local:SliderController Uid="25" Name="BrowCenterSC" />
+                                <local:SliderController Uid="30" Name="EyeTurnRightSC" />
+                                <local:SliderController Uid="22" Name="EyeLidsUpperSC" />
+                                <local:SliderController Uid="29" Name="SquintRightSC" />
+                                <local:SliderController Uid="17" Name="SneerRightSC" />
+                                <local:SliderController Uid="27" Name="LipUpperRightSC" Width="348" />
+                                <local:SliderController Uid="16" Name="LipLowerCenterSC" />
+                                <local:SliderController Uid="20" Name="SmileRightSC" />
+                                <local:SliderController Uid="18" Name="EERightSC" />
+                                <local:SliderController Uid="26" Name="LipLowerRightSC" />
+                                <Separator Margin="5" />
+                                <local:SliderController Uid="2" Name="EmptySC" />
+                                <local:SliderController Uid="28" Name="TurnSC" />
+                                <local:SliderController Uid="31" Name="TiltSC" />
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+
+                    <!-- CENTER PART OF CONTENT EDIT GRID -->
+                    <Grid Grid.Column="1">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF4C4C59" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Border BorderThickness="1" Margin="1,2,2,1" Grid.ColumnSpan="2">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                                    <GradientStop Color="#FFFAFAFA" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+
+                            <DockPanel Name="CentralSlidersPanel">
+                                <DockPanel.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Color="Black" Offset="0"/>
+                                            <GradientStop Color="#FF4C4C59" Offset="1"/>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </DockPanel.Background>
+
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Top" Background="{x:Null}">
+                                        <Label Content="Pleasure" VerticalAlignment="Center" Margin="3,0,0,0" Foreground="White" />
+                                        <TextBox Name="PleasureTextbox" Text="0.000" Width="40" Height="22" Foreground="Black" />
+                                        <Label Content="Arousal" VerticalAlignment="Center" Margin="3,0,0,0" Foreground="White" />
+                                        <TextBox Name="ArousalTextbox" Text="0.000" Width="40" Height="22" Foreground="Black" />
+                                        <Label Content="Dominance" VerticalAlignment="Center" Margin="3,0,0,0" Foreground="White" />
+                                        <TextBox Name="DominanceTextbox" Text="0.000" Width="40" Height="22" Foreground="Black" />
+                                        <Label Content="Name" VerticalAlignment="Center" Margin="3,0,0,0" Foreground="White" />
+                                        <TextBox Name="NameTextbox" Text="ExpressionName" Width="100" Height="22" Foreground="Black" />
+                                        <Button Name="RefreshButton" Style="{StaticResource ToolBarButtonBaseStyle}" ToolTip="Refresh" 
+                                                Margin="3,3,0,0" Width="32" Height="32" Click="RefreshButton_Click">
+                                            <Image Source="/Images/ToolbarMenu/Refresh-32.png" />
+                                        </Button>
+                                    </StackPanel>
+                                    <Image x:Name="image1" Source="Images/Face.png" Height="612"/>
+                                </StackPanel>
+                            </DockPanel>
+
+                        </Border>
+                    </Grid>
+
+                    <!-- RIGHT PART OF CONTENT EDIT GRID -->
+                    <Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="False">
+                        <Border BorderThickness="1" Margin="1,2,2,10" >
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                                    <GradientStop Color="#FFFAFAFA" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+
+                            <StackPanel Name="LeftSlidersPanel" Orientation="Vertical" VerticalAlignment="Top">
+                                <!-- SliderControllers here -->
+                                <local:SliderController Uid="1" Name="FrownLeftSC" />
+                                <local:SliderController Uid="6" Name="BrowOuterLeftSC" />
+                                <local:SliderController Uid="7" Name="BrowInnerLeftSC" />
+                                <local:SliderController Uid="13" Name="EyesUpDownSC" />
+                                <local:SliderController Uid="11" Name="EyeTurnLeftSC" />
+                                <local:SliderController Uid="21" Name="EyeLidsLowerSC" />
+                                <local:SliderController Uid="8" Name="SquintLeftSC" />
+                                <local:SliderController Uid="9" Name="SneerLeftSC" />
+                                <local:SliderController Uid="10" Name="LipUpperLeftSC" />
+                                <local:SliderController Uid="5" Name="LipUpperCenter" />
+                                <local:SliderController Uid="4" Name="SmileLeftSC" />
+                                <local:SliderController Uid="3" Name="EELeftSC" />
+                                <local:SliderController Uid="12" Name="LipLowerLeftSC" />
+                                <Separator Margin="5" />
+                                <local:SliderController Uid="0" Name="JawSC" />
+                                <local:SliderController Uid="14" Name="UpperNodSC" />
+                                <local:SliderController Uid="15" Name="LowerNodSC" />
+                            </StackPanel>
+
+                        </Border>
+                        <Image HorizontalAlignment="Left" Height="39" Margin="-483,58,0,0" VerticalAlignment="Top" Width="170" Source="Images/logocp.png"/>
+                        <Image HorizontalAlignment="Left" Height="39"  VerticalAlignment="Top" Width="156" Source="Images/logo1.png" Margin="-160,58,0,0"/>
+                    </Grid>
+
+                </Grid>
+
+                <!-- NET GRID -->
+                <Grid Name="NetGrid" Visibility="Hidden">
+                    <TabControl Grid.Row="0" Style="{StaticResource TabControlStyle}" Margin="0,0,0,1">
+
+                        <!-- Yarp -->
+                        <TabItem Style="{StaticResource TabItemStyle}" Header="Yarp">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+
+                                <StackPanel Orientation="Horizontal" Margin="4" >
+                                    <Label Content="Server IP" Width="60" Height="24" Margin="0,0,8,0" Padding="0,4" />
+                                    <TextBox Name="ServerIPTextbox" Text="" TextWrapping="Wrap" Width="100" Height="24" Foreground="Black" VerticalContentAlignment="Center" />
+                                    <Button Name="SaveYarpButton" Content="Save" Width="62" Height="28" Margin="8,0,0,0" Click="SaveYarpButton_Click"/>
+                                    <Label Content="Local IP: " Width="50" Height="24" Margin="15,0,8,0" Padding="0,4" />
+                                    <Label Name="MyIPLabel"  Width="95" Foreground="Black" FontWeight="Normal" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Margin="4" Width="350" HorizontalAlignment="Left">
+                                    <!--<CheckBox Name="YarpActivation" Content="Enable/Disable Yarp" Margin="0,10" Height="15" Checked="YarpActivation_Checked" Unchecked="YarpActivation_Unchecked" ></CheckBox>-->
+                                    <Label Content="YARP net status" />
+                                    <StackPanel Name="Yarp" Orientation="Horizontal" Height="28" >
+                                        <Ellipse Height="10" Name="Ellyarp" Fill="Red" Width="10" />
+                                        <Label Content="Yarp Server" FontSize="12" Foreground="Black" FontWeight="Normal" />
+                                    </StackPanel>
+                                    <StackPanel Name="YarpAtt" Orientation="Horizontal" Height="28">
+                                        <Ellipse Height="10" Name="EllAttention" Fill="Red" Width="10" />
+                                        <Label Content="Attention Module (/SenderAttentionModuleLookAt)" FontSize="12" Foreground="Black" FontWeight="Normal" />
+                                    </StackPanel>
+                                    <StackPanel Name="YarpExp" Orientation="Horizontal" Height="28">
+                                        <Ellipse Height="10" Name="Ellexp" Fill="Red" Width="10" />
+                                        <Label Content="Expression Module (/SenderAttentionModuleExp)" FontSize="12" Foreground="Black" FontWeight="Normal" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+
+                        <!-- UDP -->
+                        <TabItem Style="{StaticResource TabItemStyle}" Header="UDPExpander">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="420"/>
+                                    <ColumnDefinition Width="2"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
+                                    <StackPanel Orientation="Horizontal" Height="30" >
+                                        <Label Content="Local Port" Width="68" Height="24" />
+                                        <TextBox Name="LocalPortTextbox" Text="35555" TextWrapping="Wrap" Width="80" Height="24" Foreground="Black" />
+                                        <Label Content="Remote IP" Width="68" Height="24" Margin="8,0,0,0" />
+                                        <TextBox Name="RempteIPTextbox" Text="127.0.0.1" TextWrapping="Wrap" Width="100" Height="24" Foreground="Black" />
+                                        <Button Name="ListenUDPButton" Content="Listen" Width="62" Height="28" Margin="8,0,0,0" Click="ListenUDPButton_Click"/>
+                                    </StackPanel>
+
+                                    <Grid Margin="10,0" ShowGridLines="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="200"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="28"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.ColumnSpan="4" Content="Command" FontWeight="Bold" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="1" Grid.Column="0" Content="1" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="2" Grid.Column="0" Content="2" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="3" Grid.Column="0" Content="3" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="4" Grid.Column="0" Content="4" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="5" Grid.Column="0" Content="5" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="6" Grid.Column="0" Content="6" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="7" Grid.Column="0" Content="7" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+
+                                        <Label Grid.Row="1" Grid.Column="1" Content="Neutral" FontWeight="Normal" />
+                                        <Label Grid.Row="2" Grid.Column="1" Content="Anger" FontWeight="Normal" />
+                                        <Label Grid.Row="3" Grid.Column="1" Content="Disgust" FontWeight="Normal" />
+                                        <Label Grid.Row="4" Grid.Column="1" Content="Fear" FontWeight="Normal" />
+                                        <Label Grid.Row="5" Grid.Column="1" Content="Happiness" FontWeight="Normal" />
+                                        <Label Grid.Row="6" Grid.Column="1" Content="Sadness" FontWeight="Normal" />
+                                        <Label Grid.Row="7" Grid.Column="1" Content="Surprise" FontWeight="Normal" />
+
+                                        <Label Grid.Row="1" Grid.Column="2" Content="8" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="2" Grid.Column="2" Content="9" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="3" Grid.Column="2" Content="10" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+                                        <Label Grid.Row="4" Grid.Column="2" Content="11" FontWeight="Normal" FontStyle="Italic" HorizontalAlignment="Center" />
+
+                                        <Label Grid.Row="1" Grid.Column="3" Content="Turn neck to left (step 0.2f)" FontWeight="Normal" />
+                                        <Label Grid.Row="2" Grid.Column="3" Content="Turn neck to right (step 0.2f)" FontWeight="Normal" />
+                                        <Label Grid.Row="3" Grid.Column="3" Content="Lift the head (up) " FontWeight="Normal" />
+                                        <Label Grid.Row="4" Grid.Column="3" Content="Bow the head (down)" FontWeight="Normal" />
+                                    </Grid>
+
+                                </StackPanel>
+                            </Grid>
+                        </TabItem>
+
+                    </TabControl>
+
+                </Grid>
+
+                <!-- TEST GRID -->
+                <Grid Name="TestGrid" Visibility="Hidden">
+                    <Grid Grid.Row="0" Margin="0,0,0,1" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="350"/>
+                            <ColumnDefinition Width="2"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Buttons StackPanel -->
+                        <GroupBox Name="PersonalDataGroupbox" Grid.Column="0" Margin="5">
+                            <GroupBox.Header>
+                                <Label Content="DATI PERSONALI" FontSize="13" FontStyle="Italic" FontWeight="Bold" />
+                            </GroupBox.Header>
+
+                            <ScrollViewer Style="{StaticResource LeftScrollViewer}" Background="#FF6D6D6D">
+                                <StackPanel Name="LeftPanel">
+                                    <StackPanel Name="PersonalDataPanel">
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Label Content="Nome" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxName" Width="278" Text="" HorizontalAlignment="Right" VerticalContentAlignment="Center" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Label Content="Cognome" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxSurname" Width="258" Text="" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Label Content="Data di nascita" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxDay" Width="30" Text="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  />
+                                            <Label Content="/" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxMonth" Width="30" Text="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            <Label Content="/" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxYear" Width="40" Text="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Label Content="Sesso" FontWeight="Bold"/>
+                                            <RadioButton Name="MRadioButton" Margin="5,5,0,5" VerticalAlignment="Center"/>
+                                            <Label Content="M"/>
+                                            <RadioButton Name="FRadioButton" Margin="5,5,0,5" VerticalAlignment="Center"/>
+                                            <Label Content="F"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Label Content="Facoltà" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxFaculty" Width="194" Text="" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Label Content="Professione" FontWeight="Bold"/>
+                                            <TextBox Name="TextboxJob" Width="194" Text="" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <CheckBox IsChecked="False" VerticalAlignment="Center"/>
+                                            <TextBox Text="Dichiaro di aver letto e firmato il foglio di consenso informato." 
+                                                         FontSize="10" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Button Style="{StaticResource ButtonStyle}" Name="RestTestButton" Click="RestTestButton_Click" Margin="10" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Label Content="Fase riposo" />
+                                    </Button>
+                                    <TextBox Name="ClockTextbox" Width="150" Height="30" Margin="10" Padding="0,-4,0,0"
+                                             Text="00:00:00" FontSize="22" TextAlignment="Center" />
+                                    <Button Style="{StaticResource ButtonStyle}" Name="GotoTestButton" IsEnabled="False" Click="GotoTestButton_Click" Margin="10" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Label Content="Prosegui"/>
+                                    </Button>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </GroupBox>
+                        <!-- End Buttons StackPanel -->
+
+                        <GridSplitter Grid.Column="1" Height="Auto" Width="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                          IsEnabled="True" BorderBrush="#FF000000" Background="#FFAAAAAA" Margin="0,3" />
+
+                        <!-- Autonomous Activities -->
+                        <GroupBox Grid.Column="2" Margin="5">
+                            <GroupBox.Header>
+                                <Label Content="TEST" FontSize="13" FontStyle="Italic" FontWeight="Bold" />
+                            </GroupBox.Header>
+
+                            <ScrollViewer Style="{StaticResource LeftScrollViewer}" Background="#FF6D6D6D">
+                                <StackPanel Name="TestPanel" IsEnabled="False">
+                                    <Button Style="{StaticResource ButtonStyle}" Name="StartTestButton" Click="StartTestButton_Click" Margin="10" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Label Content="Start" />
+                                    </Button>
+                                    <!-- Blinking Expander -->
+                                    <Grid Margin="10" ShowGridLines="True">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="96"/>
+                                            <ColumnDefinition Width="96"/>
+                                            <ColumnDefinition Width="96"/>
+                                            <ColumnDefinition Width="96"/>
+                                            <ColumnDefinition Width="96"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="96"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="40"/>
+                                            <RowDefinition Height="40"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                                            <RadioButton x:Uid="0" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked" />
+                                            <Label Content="Orgoglio" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                            <RadioButton x:Uid="1" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Felicità" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                                            <RadioButton x:Uid="2" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Imbarazzo" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
+                                            <RadioButton x:Uid="3" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Neutra" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
+                                            <RadioButton x:Uid="4" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Sorpresa" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="5" Orientation="Horizontal">
+                                            <RadioButton x:Uid="5" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Disgusto" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="6" Orientation="Horizontal">
+                                            <RadioButton x:Uid="6" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Dolore" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="7" Orientation="Horizontal">
+                                            <RadioButton x:Uid="7" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Compassione" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                            <RadioButton x:Uid="8" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Disprezzo" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                            <RadioButton x:Uid="9" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Tristezza" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                                            <RadioButton x:Uid="10" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Interesse" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal">
+                                            <RadioButton x:Uid="11" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Vergogna" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="4" Orientation="Horizontal">
+                                            <RadioButton x:Uid="12" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Paura" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="5" Orientation="Horizontal">
+                                            <RadioButton x:Uid="13" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Eccitamento" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="6" Orientation="Horizontal">
+                                            <RadioButton x:Uid="14" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Rabbia" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="7" Orientation="Horizontal">
+                                            <RadioButton x:Uid="15" Margin="5,5,0,5" VerticalAlignment="Center" Checked="RadioButton_Checked"/>
+                                            <Label Content="Non la so" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Button Style="{StaticResource ButtonStyle}" Name="NextTestButton" Click="NextTestButton_Click" Margin="10" Width="75" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Label Content="Next" />
+                                    </Button>
+                                    <Button Style="{StaticResource ButtonStyle}" Name="StopTestButton" Click="StopTestButton_Click" Margin="10" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Label Content="Stop" />
+                                    </Button>
+                                </StackPanel>
+
+                            </ScrollViewer>
+                        </GroupBox>
+                        <!-- End Autonomous Activities -->
+
+                    </Grid>
+                </Grid>
+
+            </Grid>
+            <!-- End RightContentGrid -->
+
+        </Grid>
+
+        <GridSplitter Grid.Row="3" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="True" BorderBrush="#FF000000" >
+            <GridSplitter.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                    <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                </LinearGradientBrush>
+            </GridSplitter.Background>
+        </GridSplitter>
+
+
+        <!-- STATUSBAR -->
+        <StatusBar Grid.Row="4">
+            <StatusBar.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFCFAFA" Offset="0"/>
+                    <GradientStop Color="#7F070707" Offset="0.911"/>
+                </LinearGradientBrush>
+            </StatusBar.Background>
+            <!--<StatusBarItem x:Name="SBStandard" Content="Standard: SSC32" Margin="5,-2,0,0"/>
+            <Separator HorizontalAlignment="Left" Margin="5,2"/>
+            <StatusBarItem x:Name="SBPortName" Content="Port: " Margin="0,-2,0,0" />
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextNamePort" Text="" TextWrapping="Wrap" Width="50" />
+            </StatusBarItem>
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextStatusPort" Text="" TextWrapping="Wrap" Width="50"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <Button Name="OnOffButton" Style="{StaticResource ToolBarButtonBaseStyle}" Click="OpenClosePort_Click" Margin="0,-3">
+                    <Image Source="/Images/Statusbar/Off-30.png" />
+                </Button>
+            </StatusBarItem>
+            <Separator VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="5,2"/>
+            <StatusBarItem x:Name="SBBitrate" Content="Bit Rate: " Margin="0,-2,0,0" />
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextBitrate" Text="" TextWrapping="Wrap" Width="42" />
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2" />-->
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextTime" Text="TimeExp. (ms) " TextWrapping="Wrap" />
+            </StatusBarItem>
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBox x:Name="SBTimeBox" Text="2000" TextChanged="SBTimeBox_TextChanged" Width="40" Padding="-2" />
+            </StatusBarItem>
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextTimeNeck" Text="TimeNeck (ms) " TextWrapping="Wrap" />
+            </StatusBarItem>
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBox x:Name="SBTimeNeckBox" Text="15000" TextChanged="SBTimeBoxNeck_TextChanged"  Width="40" Padding="-2" />
+            </StatusBarItem>
+
+            <StatusBarItem Margin="5,-2,5,0">
+                <CheckBox x:Name="CheckboxAnimator" Content="Animator" Checked="CheckboxAnimator_Checked" Unchecked="CheckboxAnimator_Unchecked"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" IsChecked="False" />
+            </StatusBarItem>
+            <StatusBarItem Margin="5,-2,5,0">
+                <CheckBox x:Name="CheckboxYarpExp" Content="Yarp Expression" Checked="CheckboxYarpExp_Checked" Unchecked="CheckboxYarpExp_Unchecked"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" IsChecked="False" />
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2" />
+            <StatusBarItem HorizontalAlignment="Right" Margin="0,-4,0,0" >
+
+                <StackPanel Orientation="Horizontal" Height="28" >
+                    <Ellipse Height="10" x:Name="BarEllyarp" Fill="Red" Width="10" />
+                    <Label Content="Yarp Server" FontSize="12" Foreground="Black" FontWeight="Normal" />
+                    <Ellipse Height="10" x:Name="BarEllAttention" Fill="Red" Width="10" />
+                    <Label Content="FACE Robot Control" FontSize="12" Foreground="Black" FontWeight="Normal" />
+                </StackPanel>
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2" />
+
+            <StatusBarItem HorizontalAlignment="Right" Margin="0,-4,0,0" >
+
+                <TextBlock x:Name="TextTIME" Text="" TextWrapping="Wrap"  Width="250" />
+
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2" />
+            <StatusBarItem Margin="0,-2,0,0">
+                <TextBlock x:Name="TextError" Text="" TextWrapping="Wrap"  Width="250" />
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left" Margin="5,2,5,2" />
+            <StatusBarItem>
+                <TextBlock x:Name="SBInfoBox" Text="" TextWrapping="Wrap" Width="209" />
+            </StatusBarItem>
+
+        </StatusBar>
+
+    </Grid>
+</Window>
